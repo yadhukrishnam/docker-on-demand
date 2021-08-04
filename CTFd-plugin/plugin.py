@@ -7,7 +7,7 @@ app = Flask(__name__)
 SECRET = "s$cr$t"
 challenge_server = "http://192.168.0.106:9999"
 
-@app.route('/request_deploy/<int:challenge_id>', methods=['POST'])
+@app.route('/request_deploy/<challenge_id>', methods=['POST'])
 def deploy_challenge(challenge_id):
     body = request.get_json()
     data = {
@@ -18,11 +18,11 @@ def deploy_challenge(challenge_id):
     r = requests.post(challenge_server + "/deploy", json={"body": encoded}).json()
     return r
 
-@app.route('/request_kill/<int:challenge_id>', methods=['POST'])
-def kill_challenge(challenge_id):
+@app.route('/request_kill', methods=['POST'])
+def kill_challenge():
     body = request.get_json()
     data = {
-        "challenge_id": challenge_id,
+        "challenge_id": body["challenge_id"],
         "user_id": body["user_id"],
         "deployment_id": body["deployment_id"]
     }
