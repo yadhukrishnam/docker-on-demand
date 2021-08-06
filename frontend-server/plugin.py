@@ -5,7 +5,17 @@ import jwt
 app = Flask(__name__)
 
 SECRET = "s$cr$t"
-challenge_server = "http://192.168.0.106:9999"
+challenge_server = "http://192.168.0.106:9999" 
+
+@app.route("/get_deployments", methods=["POST"])
+def get_deployments():
+    body = request.get_json()
+    data = {
+        "user_id": body["user_id"]
+    }
+    encoded = jwt.encode(data, SECRET, algorithm="HS256")
+    r = requests.post(challenge_server + "/get_deployments", json={"body": encoded}).json()
+    return r
 
 @app.route('/request_deploy/<challenge_id>', methods=['POST'])
 def deploy_challenge(challenge_id):
