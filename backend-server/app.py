@@ -10,10 +10,6 @@ from deployer import *
 
 app = Flask(__name__)
 
-SECRET = "s$cr$t"
-DATABASE = 'deployments.db'
-PORT_START = 7002
-
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -26,7 +22,26 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+@app.route('/get_deployments', methods=['POST'])
+def get_deployments():
+    body = request.get_json()["body"]
+    try:
+        payload = jwt.decode(body, SECRET, algorithms=["HS256"])
+        user_id = str(payload["user_id"])
+    except (jwt.DecodeError, jwt.ExpiredSignatureError):
+        return jsonify({'status': 'fail', 'message': 'Token is invalid'})  
 
+    deployments = query_db("SELECT challenge_id, deployment_id FROM deployments WHERE user_id = ?", (user_id, )) 
+    if deployments is None or len(deployments) == 0:
+        return jsonify({'status': 'fail', 'message': 'No deployments found.'})  
+    else:
+        result = {}
+        for row in deployments:
+            result[row[0]] = {
+                "deployment_id": row[1],
+            }
+        return jsonify({'status': 'success', 'deployments': result})  
+    
 
 @app.route('/deploy', methods=['POST'])
 def deploy_challenge():
@@ -74,13 +89,12 @@ def kill_challenge():
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute("DELETE FROM deployments WHERE user_id = ? AND challenge_id = ? ", (user_id, challenge_id,))
-        deleted = cursor.rowcount
         kill(deployment_id)
         conn.commit()
         conn.close()
         return jsonify({"status":"success"})
     else:
-        return jsonify({"status":"fail"})
+        return jsonify({'status':'fail', 'message': 'No such deployment.'})
         
    
 if __name__ == '__main__':
