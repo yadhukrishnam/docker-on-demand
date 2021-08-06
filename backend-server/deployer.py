@@ -1,12 +1,13 @@
 import requests
 import docker
 import json
+import subprocess
 from config import *
 
-def build_images(challenges):
+def build_image(challenge):
     client = docker.from_env()
-    for challenge in challenges:
-        subprocess.run(["docker-compose build"], cwd=challenges[challenge]["path"], shell=True, check=True)
+    print ("Building", challenge["path"])
+    subprocess.run(["docker-compose build"], cwd=challenge["path"], shell=True, check=True)
     client.close()
 
 def deploy(challenge_id):

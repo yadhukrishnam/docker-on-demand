@@ -6,6 +6,7 @@ import sqlite3
 import subprocess
 import docker
 import json
+import sys
 from deployer import *
 
 app = Flask(__name__)
@@ -98,6 +99,12 @@ def kill_challenge():
         
    
 if __name__ == '__main__':
+    print(sys.argv[1:])
+    if "--build" in sys.argv[1:]:
+        print ("Starting build..")
+        for challenge in challenges:
+            build_image(challenges[challenge])
+
     conn = sqlite3.connect(DATABASE)
     conn.execute('''CREATE TABLE IF NOT EXISTS deployments  (deployment_id, user_id, challenge_id, port); ''')
     conn.close()
