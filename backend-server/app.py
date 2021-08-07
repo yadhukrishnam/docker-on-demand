@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, g
+from functools import wraps
 import requests
 import jwt
 import uuid
@@ -24,9 +25,27 @@ def query_db(query, args=(), one=False):
     cur.close()
     return (rv[0] if rv else None) if one else rv
 
+def jwt_verification(params):
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            try: 
+                body = request.get_json()["body"]
+                payload = jwt.decode(body, SECRET, algorithms=["HS256"])
+                missing = [r for r in params if r not in payload]
+                if missing:
+                    raise ValueError("Required params not supplied.")
+            except:
+                response = {'status': 'fail', 'message': 'Invalid token supplied.'}
+                return jsonify(response), 400
+            return fn(payload)
+        return wrapper
+    return decorator
+
+
 def auto_clear():
     conn = sqlite3.connect(DATABASE)
-    cur = conn.execute("SELECT deployment_id FROM  deployments WHERE ROUND((JULIANDAY(current_timestamp) - JULIANDAY(created_at)) * 1440) > ?", (expiry, ))
+    cur = conn.execute("SELECT deployment_id FROM deployments WHERE ROUND((JULIANDAY(current_timestamp) - JULIANDAY(created_at)) * 1440) > ?", (expiry, ))
     expired_deployments = cur.fetchall()
     conn.close()
     for deployment in expired_deployments:
@@ -42,14 +61,9 @@ def remove_deployment(deployment_id):
     conn.close()
 
 @app.route('/get_deployments', methods=['POST'])
-def get_deployments():
-    body = request.get_json()["body"]
-    try:
-        payload = jwt.decode(body, SECRET, algorithms=["HS256"])
-        user_id = str(payload["user_id"])
-    except (jwt.DecodeError, jwt.ExpiredSignatureError):
-        return jsonify({'status': 'fail', 'message': 'Token is invalid'})  
-
+@jwt_verification(["user_id"])
+def get_deployments(body):
+    user_id = body["user_id"]
     deployments = query_db("SELECT challenge_id, deployment_id FROM deployments WHERE user_id = ?", (user_id, )) 
     if deployments is None or len(deployments) == 0:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'})  
@@ -63,16 +77,11 @@ def get_deployments():
     
 
 @app.route('/deploy', methods=['POST'])
-def deploy_challenge():
-    body = request.get_json()["body"]
-    try:
-        payload = jwt.decode(body, SECRET, algorithms=["HS256"])
-        challenge_id = str(payload["challenge_id"])
-        user_id = str(payload["user_id"])
-
-    except (jwt.DecodeError, jwt.ExpiredSignatureError):
-        return jsonify({'status': 'fail', 'message': 'Token is invalid'})
-        
+@jwt_verification(["challenge_id", "user_id"])
+def deploy_challenge(body):
+    challenge_id = body["challenge_id"]
+    user_id = body["user_id"]
+    
     deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ?", (user_id, challenge_id) , True)
 
     if deployment is None:
@@ -89,17 +98,12 @@ def deploy_challenge():
 
     
 @app.route('/kill', methods=['POST'])
-def kill_challenge():
-    body = request.get_json()["body"]
-    try:
-        payload = jwt.decode(body, SECRET, algorithms=["HS256"])
-        challenge_id = str(payload["challenge_id"])
-        user_id = str(payload["user_id"])
-        deployment_id = str(payload["deployment_id"])
+@jwt_verification(["challenge_id", "user_id", "deployment_id"])
+def kill_challenge(body):
+    challenge_id = str(body["challenge_id"])
+    user_id = str(body["user_id"])
+    deployment_id = str(body["deployment_id"])
 
-    except (jwt.DecodeError, jwt.ExpiredSignatureError):
-        return jsonify({'status': 'fail', 'message': 'Token is invalid'})
-    
     deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ? AND deployment_id = ?", (user_id, challenge_id, deployment_id) , True)
     
     if deployment is not None:
@@ -118,7 +122,6 @@ def kill_challenge():
 
 
 if __name__ == '__main__':
-    print(sys.argv[1:])
     if "--build" in sys.argv[1:]:
         print ("Starting build..")
         for challenge in challenges:
@@ -129,6 +132,14 @@ if __name__ == '__main__':
         auto_clear()
 
     conn = sqlite3.connect(DATABASE)
-    conn.execute('''CREATE TABLE IF NOT EXISTS deployments (deployment_id, user_id, challenge_id, port, created_at); ''')
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS deployments (
+            deployment_id PRIMARY KEY,
+            user_id VARCHAR, 
+            challenge_id VARCHAR, 
+            port INT, 
+            created_at TIMESTAMP
+        );
+    ''')
     conn.close()
     app.run(host='0.0.0.0', port=9999, debug=True)
