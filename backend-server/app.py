@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, g
 from functools import wraps
 import requests
 import jwt
-import uuid
 import sqlite3
 import subprocess
 import docker
@@ -38,10 +37,9 @@ def jwt_verification(params):
             except:
                 response = {'status': 'fail', 'message': 'Invalid token supplied.'}
                 return jsonify(response), 400
-            return fn(payload)
+            return fn(* tuple(payload[item] for item in params))
         return wrapper
     return decorator
-
 
 def auto_clear():
     conn = sqlite3.connect(DATABASE)
@@ -62,8 +60,7 @@ def remove_deployment(deployment_id):
 
 @app.route('/get_deployments', methods=['POST'])
 @jwt_verification(["user_id"])
-def get_deployments(body):
-    user_id = body["user_id"]
+def get_deployments(user_id):
     deployments = query_db("SELECT challenge_id, deployment_id FROM deployments WHERE user_id = ?", (user_id, )) 
     if deployments is None or len(deployments) == 0:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'})  
@@ -75,22 +72,16 @@ def get_deployments(body):
             }
         return jsonify({'status': 'success', 'deployments': result})  
     
-
 @app.route('/deploy', methods=['POST'])
 @jwt_verification(["challenge_id", "user_id"])
-def deploy_challenge(body):
-    challenge_id = body["challenge_id"]
-    user_id = body["user_id"]
-    
+def deploy_challenge(challenge_id, user_id):   
     deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ?", (user_id, challenge_id) , True)
-
     if deployment is None:
         id, port = deploy(challenge_id)
         conn = sqlite3.connect(DATABASE)
         conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", (id, user_id, challenge_id, str(port)))
         conn.commit()
         conn.close()
-
         return jsonify({"status":"success", 'deployment_id': id, "port": port})
     else:
         print(deployment)
@@ -99,16 +90,10 @@ def deploy_challenge(body):
     
 @app.route('/kill', methods=['POST'])
 @jwt_verification(["challenge_id", "user_id", "deployment_id"])
-def kill_challenge(body):
-    challenge_id = str(body["challenge_id"])
-    user_id = str(body["user_id"])
-    deployment_id = str(body["deployment_id"])
-
+def kill_challenge(challenge_id, user_id, deployment_id):
     deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ? AND deployment_id = ?", (user_id, challenge_id, deployment_id) , True)
-    
     if deployment is not None:
         port = deployment[3]
-        print ("Deleting deployment at", port)
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute("DELETE FROM deployments WHERE user_id = ? AND challenge_id = ? ", (user_id, challenge_id,))
@@ -119,8 +104,6 @@ def kill_challenge(body):
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'})
         
-
-
 if __name__ == '__main__':
     if "--build" in sys.argv[1:]:
         print ("Starting build..")
@@ -128,7 +111,7 @@ if __name__ == '__main__':
             build_image(challenges[challenge])
     
     if "--autokill" in sys.argv[1:]:
-        print ("Started with auto kill")
+        print ("Started with auto kill..")
         auto_clear()
 
     conn = sqlite3.connect(DATABASE)
