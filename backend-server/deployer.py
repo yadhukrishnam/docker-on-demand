@@ -27,9 +27,13 @@ def deploy(challenge_id):
     return None
 
 def kill(container_id):
-    client = docker.from_env()
-    container = client.containers.get(container_id)
-    container.kill()
-    container.remove()
-    client.close()
-    return True
+    try:
+        client = docker.from_env()
+        container = client.containers.get(container_id)
+        container.kill()
+        container.remove()
+        client.close()
+    except:
+        return False
+    finally:
+        return True

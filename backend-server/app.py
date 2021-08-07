@@ -7,6 +7,7 @@ import subprocess
 import docker
 import json
 import sys
+import threading
 from deployer import *
 
 app = Flask(__name__)
@@ -22,6 +23,23 @@ def query_db(query, args=(), one=False):
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
+
+def auto_clear():
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.execute("SELECT deployment_id FROM  deployments WHERE ROUND((JULIANDAY(current_timestamp) - JULIANDAY(created_at)) * 1440) > ?", (expiry, ))
+    expired_deployments = cur.fetchall()
+    conn.close()
+    for deployment in expired_deployments:
+        remove_deployment(deployment[0])
+
+    threading.Timer(60, auto_clear).start()
+
+def remove_deployment(deployment_id):
+    kill(deployment_id)
+    conn = sqlite3.connect(DATABASE)
+    cur = conn.execute("DELETE FROM deployments WHERE deployment_id = ?", (deployment_id, ))
+    conn.commit()
+    conn.close()
 
 @app.route('/get_deployments', methods=['POST'])
 def get_deployments():
@@ -60,7 +78,7 @@ def deploy_challenge():
     if deployment is None:
         id, port = deploy(challenge_id)
         conn = sqlite3.connect(DATABASE)
-        conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?)", (id, user_id, challenge_id, str(port)))
+        conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", (id, user_id, challenge_id, str(port)))
         conn.commit()
         conn.close()
 
@@ -97,15 +115,20 @@ def kill_challenge():
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'})
         
-   
+
+
 if __name__ == '__main__':
     print(sys.argv[1:])
     if "--build" in sys.argv[1:]:
         print ("Starting build..")
         for challenge in challenges:
             build_image(challenges[challenge])
+    
+    if "--autokill" in sys.argv[1:]:
+        print ("Started with auto kill")
+        auto_clear()
 
     conn = sqlite3.connect(DATABASE)
-    conn.execute('''CREATE TABLE IF NOT EXISTS deployments  (deployment_id, user_id, challenge_id, port); ''')
+    conn.execute('''CREATE TABLE IF NOT EXISTS deployments (deployment_id, user_id, challenge_id, port, created_at); ''')
     conn.close()
     app.run(host='0.0.0.0', port=9999, debug=True)
