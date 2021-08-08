@@ -63,7 +63,7 @@ def remove_deployment(deployment_id):
 def get_deployments(user_id):
     deployments = query_db("SELECT challenge_id, deployment_id, port FROM deployments WHERE user_id = ?", (user_id, )) 
     if deployments is None or len(deployments) == 0:
-        return jsonify({'status': 'fail', 'message': 'No deployments found.'})  
+        return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     else:
         result = {}
         for row in deployments:
@@ -103,7 +103,7 @@ def kill_challenge(challenge_id, user_id, deployment_id):
         conn.close()
         return jsonify({"status":"success"})
     else:
-        return jsonify({'status':'fail', 'message': 'No such deployment.'}), 4
+        return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
         
 if __name__ == '__main__':
     if "--build" in sys.argv[1:]:
