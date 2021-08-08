@@ -61,7 +61,7 @@ def remove_deployment(deployment_id):
 @app.route('/get_deployments', methods=['POST'])
 @jwt_verification(["user_id"])
 def get_deployments(user_id):
-    deployments = query_db("SELECT challenge_id, deployment_id FROM deployments WHERE user_id = ?", (user_id, )) 
+    deployments = query_db("SELECT challenge_id, deployment_id, port FROM deployments WHERE user_id = ?", (user_id, )) 
     if deployments is None or len(deployments) == 0:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'})  
     else:
@@ -69,6 +69,7 @@ def get_deployments(user_id):
         for row in deployments:
             result[row[0]] = {
                 "deployment_id": row[1],
+                "port": row[2]
             }
         return jsonify({'status': 'success', 'deployments': result})  
     
@@ -102,7 +103,7 @@ def kill_challenge(challenge_id, user_id, deployment_id):
         conn.close()
         return jsonify({"status":"success"})
     else:
-        return jsonify({'status':'fail', 'message': 'No such deployment.'})
+        return jsonify({'status':'fail', 'message': 'No such deployment.'}), 4
         
 if __name__ == '__main__':
     if "--build" in sys.argv[1:]:
@@ -125,4 +126,4 @@ if __name__ == '__main__':
         );
     ''')
     conn.close()
-    app.run(host='0.0.0.0', port=9999, debug=True)
+    app.run(host='0.0.0.0', port=APP_PORT, debug=True) 

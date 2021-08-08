@@ -5,7 +5,7 @@ import jwt
 app = Flask(__name__)
 
 SECRET = "s$cr$t"
-challenge_server = "http://192.168.0.106:9999" 
+challenge_server = "http://192.168.0.106:3000" 
 
 @app.route("/get_deployments", methods=["POST"])
 def get_deployments():
