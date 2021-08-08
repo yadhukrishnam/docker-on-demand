@@ -83,10 +83,10 @@ def deploy_challenge(challenge_id, user_id):
         conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", (id, user_id, challenge_id, str(port)))
         conn.commit()
         conn.close()
-        return jsonify({"status":"success", 'deployment_id': id, "port": port})
+        return jsonify({"status":"success", 'deployment_id': id, "url": f"http://{HOST_IP}:{port}/"})
     else:
         print(deployment)
-        return jsonify({"status":"success", 'deployment_id': deployment[0], "port" : deployment[3]})
+        return jsonify({"status":"success", 'deployment_id': deployment[0], "url" : f"http://{HOST_IP}:{port}/"})
 
     
 @app.route('/kill', methods=['POST'])
