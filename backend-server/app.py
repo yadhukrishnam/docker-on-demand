@@ -6,6 +6,7 @@ import sys
 import threading
 import os
 import logging
+import random
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime
 from sqlalchemy import text
@@ -90,7 +91,7 @@ def deploy_challenge(challenge_id, user_id):
         while True:
             port = random.randint(PORT_START, PORT_END)
             port_exists = Deployment.query.filter_by(port=port).first()
-            if port_exists is not None:
+            if port_exists is None:
                 break
 
         id = deploy(challenge_id, port)
@@ -104,7 +105,7 @@ def deploy_challenge(challenge_id, user_id):
 
     
 @app.route('/kill', methods=['POST'])
-@jwt_verification(["challenge_id", "user_id"])
+@jwt_verification(["chal lenge_id", "user_id"])
 def kill_challenge(challenge_id, user_id):
     deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if deployment is not None:
