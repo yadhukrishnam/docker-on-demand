@@ -5,6 +5,7 @@ import jwt
 import sys
 import threading
 import os
+import logging
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DateTime
 from sqlalchemy import text
@@ -16,6 +17,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+logging.basicConfig(filename='debug.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 class Deployment(db.Model):
     deployment_id = db.Column(db.String(65), primary_key=True)
