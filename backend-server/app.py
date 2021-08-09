@@ -18,7 +18,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class Deployment(db.Model):
-    deployment_id = db.Column(  db.String(65), primary_key=True)
+    deployment_id = db.Column(db.String(65), primary_key=True)
     user_id = db.Column(db.String(200), nullable=False)
     challenge_id = db.Column(db.String(200), nullable=False)
     port = db.Column(db.Integer, nullable=False)
@@ -60,6 +60,11 @@ def remove_deployment(deployment_id):
     kill(deployment_id)
     Deployment.query.filter_by(deployment_id=deployment_id).delete()
     db.session.commit()
+
+@app.errorhandler(Exception)
+def server_error(err):
+    app.logger.exception(err)
+    return jsonify({'status': 'fail'})  
 
 @app.route('/get_deployments', methods=['POST'])
 @jwt_verification(["user_id"])
