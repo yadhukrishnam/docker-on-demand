@@ -87,14 +87,20 @@ def get_deployments(user_id):
 def deploy_challenge(challenge_id, user_id):   
     deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if deployment is None:
-        id, port = deploy(challenge_id)
+        while True:
+            port = random.randint(PORT_START, PORT_END)
+            port_exists = Deployment.query.filter_by(port=port).first()
+            if port_exists is not None:
+                break
+
+        id = deploy(challenge_id, port)
         deployment = Deployment(id, user_id, challenge_id, port)
         db.session.add(deployment)
         db.session.commit()
         return jsonify({"status":"success", "url": f"{HOST_IP}:{port}/"})
     else:
         print(deployment)
-        return jsonify({"status":"success", "url" : f"{HOST_IP}:{deployment[3]}/"})
+        return jsonify({"status":"success", "url" : f"{HOST_IP}:{deployment.port}/"})
 
     
 @app.route('/kill', methods=['POST'])
@@ -107,15 +113,8 @@ def kill_challenge(challenge_id, user_id):
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
         
-if __name__ == '__main__':
-    if "--build" in sys.argv[1:]:
-        print ("Starting build..")
-        for challenge in challenges:
-            build_image(challenges[challenge])
-    
-    if "--autokill" in sys.argv[1:]:
-        print ("Started with auto kill..")
-        auto_clear()
+auto_clear()
+db.create_all()
 
-    db.create_all()
+if __name__ == "__main__":
     app.run(host='0.0.0.0', port=APP_PORT, debug=False) 

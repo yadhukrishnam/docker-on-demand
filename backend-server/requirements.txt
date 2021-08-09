@@ -3,3 +3,4 @@ requests
 pyjwt
 flask
 flask_sqlalchemy
+gunicorn
