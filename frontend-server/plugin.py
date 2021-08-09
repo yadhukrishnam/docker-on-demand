@@ -5,9 +5,9 @@ import jwt
 app = Flask(__name__)
 
 SECRET = "s$cr$t"
-# challenge_server = "http://192.168.0.106:3000" 
+challenge_server = "http://192.168.0.106:1337" 
 remote = "http://34.136.149.64:1337"
-challenge_server = remote
+# challenge_server = remote
 
 @app.route("/get_deployments", methods=["POST"])
 def get_deployments():
@@ -36,7 +36,6 @@ def kill_challenge():
     data = {
         "challenge_id": body["challenge_id"],
         "user_id": body["user_id"],
-        "deployment_id": body["deployment_id"]
     }
     encoded = jwt.encode(data, SECRET, algorithm="HS256")
     r = requests.post(challenge_server + "/kill", json={"body": encoded}).json()
