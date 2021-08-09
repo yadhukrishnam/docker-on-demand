@@ -1,5 +1,6 @@
 import json
 
+debug = False
 expiry = 2
 PORT_START = 7000
 APP_PORT = 1337

@@ -1,8 +1,7 @@
-from flask import Flask, request, jsonify, g
+from flask import Flask, request, jsonify
 from functools import wraps
 import requests
 import jwt
-import sqlite3
 import sys
 import threading
 import os
@@ -111,4 +110,4 @@ if __name__ == '__main__':
         auto_clear()
 
     db.create_all()
-    app.run(host='0.0.0.0', port=APP_PORT, debug=True) 
+    app.run(host='0.0.0.0', port=APP_PORT, debug=False) 
