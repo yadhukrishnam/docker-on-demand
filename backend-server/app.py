@@ -5,21 +5,30 @@ import jwt
 import sqlite3
 import sys
 import threading
+import os
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import DateTime
+from sqlalchemy import text
+from datetime import datetime
 from deployer import *
 
 app = Flask(__name__)
+basedir = os.path.abspath(os.path.dirname(__file__))
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
+db = SQLAlchemy(app)
 
-def get_db():
-    db = getattr(g, '_database', None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-def query_db(query, args=(), one=False):
-    cur = get_db().execute(query, args)
-    rv = cur.fetchall()
-    cur.close()
-    return (rv[0] if rv else None) if one else rv
+class Deployment(db.Model):
+    deployment_id = db.Column(  db.String(65), primary_key=True)
+    user_id = db.Column(db.String(200), nullable=False)
+    challenge_id = db.Column(db.String(200), nullable=False)
+    port = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    
+    def __init__(self, deployment_id, user_id, challenge_id, port):
+        self.deployment_id = deployment_id
+        self.user_id = user_id
+        self.challenge_id = challenge_id
+        self.port = port
 
 def jwt_verification(params):
     def decorator(fn):
@@ -39,63 +48,54 @@ def jwt_verification(params):
     return decorator
 
 def auto_clear():
-    conn = sqlite3.connect(DATABASE)
-    cur = conn.execute("SELECT deployment_id FROM deployments WHERE ROUND((JULIANDAY(current_timestamp) - JULIANDAY(created_at)) * 1440) > ?", (expiry, ))
-    expired_deployments = cur.fetchall()
-    conn.close()
+    current_timestamp = datetime.utcnow()
+    sql = text('SELECT deployment_id FROM Deployment WHERE ROUND((JULIANDAY(created_at) - JULIANDAY(current_timestamp)) * 1440) > :expiry').bindparams(expiry=expiry)
+    expired_deployments = db.session.execute(sql).all()
     for deployment in expired_deployments:
         remove_deployment(deployment[0])
-
+    db.session.commit()
     threading.Timer(60, auto_clear).start()
 
 def remove_deployment(deployment_id):
     kill(deployment_id)
-    conn = sqlite3.connect(DATABASE)
-    cur = conn.execute("DELETE FROM deployments WHERE deployment_id = ?", (deployment_id, ))
-    conn.commit()
-    conn.close()
+    Deployment.query.filter_by(deployment_id=deployment_id).delete()
+    db.session.commit()
 
 @app.route('/get_deployments', methods=['POST'])
 @jwt_verification(["user_id"])
 def get_deployments(user_id):
-    deployments = query_db("SELECT challenge_id, deployment_id, port FROM deployments WHERE user_id = ?", (user_id, )) 
+    deployments = Deployment.query.filter_by(user_id=user_id).all()
     if deployments is None or len(deployments) == 0:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     else:
         result = {}
-        for row in deployments:
-            result[row[0]] = {
-                "url": f"http://{HOST_IP}:{row[2]}/"
+        for deployment in deployments:
+            result[deployment.challenge_id] = {
+                "url": f"{HOST_IP}:{deployment.port}/"
             }
         return jsonify({'status': 'success', 'deployments': result})  
     
 @app.route('/deploy', methods=['POST'])
 @jwt_verification(["challenge_id", "user_id"])
 def deploy_challenge(challenge_id, user_id):   
-    deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ?", (user_id, challenge_id) , True)
+    deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if deployment is None:
         id, port = deploy(challenge_id)
-        conn = sqlite3.connect(DATABASE)
-        conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", (id, user_id, challenge_id, str(port)))
-        conn.commit()
-        conn.close()
-        return jsonify({"status":"success", "url": f"http://{HOST_IP}:{port}/"})
+        deployment = Deployment(id, user_id, challenge_id, port)
+        db.session.add(deployment)
+        db.session.commit()
+        return jsonify({"status":"success", "url": f"{HOST_IP}:{port}/"})
     else:
         print(deployment)
-        return jsonify({"status":"success", "url" : f"http://{HOST_IP}:{deployment[3]}/"})
+        return jsonify({"status":"success", "url" : f"{HOST_IP}:{deployment[3]}/"})
 
     
 @app.route('/kill', methods=['POST'])
 @jwt_verification(["challenge_id", "user_id"])
 def kill_challenge(challenge_id, user_id):
-    deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ?", (user_id, challenge_id,) , True)
+    deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if deployment is not None:
-        conn = sqlite3.connect(DATABASE)
-        cursor = conn.cursor()
-        cursor.execute("DELETE FROM deployments WHERE user_id = ? AND challenge_id = ? ", (user_id, challenge_id,))
-        kill(deployment[0])
-        conn.commit()
-        conn.close()
+        remove_deployment(deployment.deployment_id)
         return jsonify({"status":"success"})
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
@@ -110,15 +110,5 @@ if __name__ == '__main__':
         print ("Started with auto kill..")
         auto_clear()
 
-    conn = sqlite3.connect(DATABASE)
-    conn.execute('''
-        CREATE TABLE IF NOT EXISTS deployments (
-            deployment_id PRIMARY KEY,
-            user_id VARCHAR, 
-            challenge_id VARCHAR, 
-            port INT, 
-            created_at TIMESTAMP
-        );
-    ''')
-    conn.close()
+    db.create_all()
     app.run(host='0.0.0.0', port=APP_PORT, debug=True) 
