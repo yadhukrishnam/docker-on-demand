@@ -72,16 +72,11 @@ def server_error(err):
 @app.route('/get_deployments', methods=['POST'])
 @jwt_verification(["user_id"])
 def get_deployments(user_id):
-    deployments = Deployment.query.filter_by(user_id=user_id).all()
-    if deployments is None or len(deployments) == 0:
+    deployment = Deployment.query.filter_by(user_id=user_id).first()
+    if deployment is None or len(deployment) == 0:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     else:
-        result = {}
-        for deployment in deployments:
-            result[deployment.challenge_id] = {
-                "url": f"{HOST_IP}:{deployment.port}/"
-            }
-        return jsonify({'status': 'success', 'deployments': result})  
+        return jsonify({'status': 'success', 'url': f"{HOST_IP}:{deployment.port}/"})  
     
 @app.route('/deploy', methods=['POST'])
 @jwt_verification(["challenge_id", "user_id"])
