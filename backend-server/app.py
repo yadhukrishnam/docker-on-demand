@@ -3,9 +3,6 @@ from functools import wraps
 import requests
 import jwt
 import sqlite3
-import subprocess
-import docker
-import json
 import sys
 import threading
 from deployer import *
@@ -68,8 +65,7 @@ def get_deployments(user_id):
         result = {}
         for row in deployments:
             result[row[0]] = {
-                "deployment_id": row[1],
-                "port": row[2]
+                "url": f"http://{HOST_IP}:{row[2]}/"
             }
         return jsonify({'status': 'success', 'deployments': result})  
     
@@ -83,22 +79,21 @@ def deploy_challenge(challenge_id, user_id):
         conn.execute("INSERT INTO deployments  VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", (id, user_id, challenge_id, str(port)))
         conn.commit()
         conn.close()
-        return jsonify({"status":"success", 'deployment_id': id, "url": f"http://{HOST_IP}:{port}/"})
+        return jsonify({"status":"success", "url": f"http://{HOST_IP}:{port}/"})
     else:
         print(deployment)
-        return jsonify({"status":"success", 'deployment_id': deployment[0], "url" : f"http://{HOST_IP}:{port}/"})
+        return jsonify({"status":"success", "url" : f"http://{HOST_IP}:{deployment[3]}/"})
 
     
 @app.route('/kill', methods=['POST'])
-@jwt_verification(["challenge_id", "user_id", "deployment_id"])
-def kill_challenge(challenge_id, user_id, deployment_id):
-    deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ? AND deployment_id = ?", (user_id, challenge_id, deployment_id) , True)
+@jwt_verification(["challenge_id", "user_id"])
+def kill_challenge(challenge_id, user_id):
+    deployment = query_db("SELECT * FROM deployments WHERE user_id = ? AND challenge_id = ?", (user_id, challenge_id,) , True)
     if deployment is not None:
-        port = deployment[3]
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         cursor.execute("DELETE FROM deployments WHERE user_id = ? AND challenge_id = ? ", (user_id, challenge_id,))
-        kill(deployment_id)
+        kill(deployment[0])
         conn.commit()
         conn.close()
         return jsonify({"status":"success"})
