@@ -18,7 +18,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'database.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
-logging.basicConfig(filename='debug.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+logging.basicConfig(filename='debug.log', level=logging.WARNING, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 class Deployment(db.Model):
     deployment_id = db.Column(db.String(65), primary_key=True)
@@ -100,7 +100,7 @@ def deploy_challenge(challenge_id, user_id):
 
     
 @app.route('/kill', methods=['POST'])
-@jwt_verification(["chal lenge_id", "user_id"])
+@jwt_verification(["challenge_id", "user_id"])
 def kill_challenge(challenge_id, user_id):
     deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
     if deployment is not None:
@@ -109,8 +109,8 @@ def kill_challenge(challenge_id, user_id):
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
         
-auto_clear()
 db.create_all()
+auto_clear()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=APP_PORT, debug=False) 
+    app.run(host='0.0.0.0', port=APP_PORT, debug=True) 
