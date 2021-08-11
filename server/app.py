@@ -73,7 +73,7 @@ def server_error(err):
 @jwt_verification(["user_id"])
 def get_deployments(user_id):
     deployment = Deployment.query.filter_by(user_id=user_id).first()
-    if deployment is None or len(deployment) == 0:
+    if deployment is None:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     else:
         return jsonify({'status': 'success', 'url': f"{HOST_IP}:{deployment.port}/"})  
