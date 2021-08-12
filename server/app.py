@@ -8,6 +8,7 @@ import os
 import logging
 import random
 from flask_sqlalchemy import SQLAlchemy
+from datetime import timezone
 from sqlalchemy import DateTime
 from sqlalchemy import text
 from datetime import datetime
@@ -25,7 +26,7 @@ class Deployment(db.Model):
     user_id = db.Column(db.String(200), nullable=False)
     challenge_id = db.Column(db.String(200), nullable=False)
     port = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now())
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
     
     def __init__(self, deployment_id, user_id, challenge_id, port):
         self.deployment_id = deployment_id
@@ -52,12 +53,13 @@ def jwt_verification(params):
 
 def auto_clear():
     current_timestamp = datetime.utcnow()
-    sql = text('SELECT deployment_id FROM Deployment WHERE ROUND((JULIANDAY(created_at) - JULIANDAY(current_timestamp)) * 1440) > :expiry').bindparams(expiry=expiry)
+    sql = text('Select * FROM deployment WHERE Cast (( JulianDay(current_timestamp) - JulianDay(created_at)) * 24 * 60 As Integer) > 5')
     expired_deployments = db.session.execute(sql).all()
+    print (expired_deployments)
     for deployment in expired_deployments:
         remove_deployment(deployment[0])
     db.session.commit()
-    threading.Timer(60, auto_clear).start()
+    threading.Timer(20, auto_clear).start()
 
 def remove_deployment(deployment_id):
     kill(deployment_id)
