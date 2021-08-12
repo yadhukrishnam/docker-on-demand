@@ -1,0 +1,13 @@
+[Unit]
+Description=Docker On Demand Service
+After=network.target
+
+[Service]
+User=root
+Group=www-data
+WorkingDirectory=/home/ubuntu/docker-on-demand/server/
+
+ExecStart=/usr/bin/gunicorn3 --workers 3 --bind 0.0.0.0:1337 wsgi:app --error-logfile ./error.log --access-logfile ./access.log
+
+[Install]
+WantedBy=multi-user.target
