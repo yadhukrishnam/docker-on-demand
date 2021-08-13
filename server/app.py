@@ -91,7 +91,7 @@ def deploy_challenge(challenge_id, user_id):
             if port_exists is None:
                 break
 
-        id = deploy(challenge_id, port)
+        id = deploy(challenge_id, port, user_id)
         deployment = Deployment(id, user_id, challenge_id, port)
         db.session.add(deployment)
         db.session.commit()
@@ -112,7 +112,6 @@ def kill_challenge(challenge_id, user_id):
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
         
 db.create_all()
-auto_clear()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=APP_PORT, debug=True) 
