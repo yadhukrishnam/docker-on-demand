@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import timezone
 from sqlalchemy import DateTime
 from sqlalchemy import text
-from datetime import datetime
+import time
 from deployer import *
 
 app = Flask(__name__)
@@ -26,13 +26,14 @@ class Deployment(db.Model):
     user_id = db.Column(db.String(200), nullable=False)
     challenge_id = db.Column(db.String(200), nullable=False)
     port = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(timezone.utc))
+    created_at = db.Column(db.String(80), nullable=False)
     
-    def __init__(self, deployment_id, user_id, challenge_id, port):
+    def __init__(self, deployment_id, user_id, challenge_id, port, created_at):
         self.deployment_id = deployment_id
         self.user_id = user_id
         self.challenge_id = challenge_id
         self.port = port
+        self.created_at = created_at
 
 def jwt_verification(params):
     def decorator(fn):
@@ -52,8 +53,7 @@ def jwt_verification(params):
     return decorator
 
 def auto_clear():
-    current_timestamp = datetime.utcnow()
-    sql = text('Select * FROM deployment WHERE Cast (( JulianDay(current_timestamp) - JulianDay(created_at)) * 24 * 60 As Integer) > 5')
+    sql = text('Select * FROM deployment WHERE :time - created_at > 60').bindparams(time=time.time())
     expired_deployments = db.session.execute(sql).all()
     print (expired_deployments)
     for deployment in expired_deployments:
@@ -92,7 +92,7 @@ def deploy_challenge(challenge_id, user_id):
                 break
 
         id = deploy(challenge_id, port, user_id)
-        deployment = Deployment(id, user_id, challenge_id, port)
+        deployment = Deployment(id, user_id, challenge_id, port, time.time())
         db.session.add(deployment)
         db.session.commit()
         return jsonify({"status":"success", "url": f"{HOST_IP}:{port}/"})
@@ -112,6 +112,7 @@ def kill_challenge(challenge_id, user_id):
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
         
 db.create_all()
+auto_clear()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=APP_PORT, debug=True) 
