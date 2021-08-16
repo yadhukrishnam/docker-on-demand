@@ -1,6 +1,6 @@
 *.db
 __pycache__/
-challenges.json
+images.json
 *.sqlite
 *.log
 

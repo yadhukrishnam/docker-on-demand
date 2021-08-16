@@ -24,14 +24,14 @@ logging.basicConfig(filename='debug.log', level=logging.WARNING, format=f'%(asct
 class Deployment(db.Model):
     deployment_id = db.Column(db.String(65), primary_key=True)
     user_id = db.Column(db.String(200), nullable=False)
-    challenge_id = db.Column(db.String(200), nullable=False)
+    image_id = db.Column(db.String(200), nullable=False)
     port = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.String(80), nullable=False)
     
-    def __init__(self, deployment_id, user_id, challenge_id, port, created_at):
+    def __init__(self, deployment_id, user_id, image_id, port, created_at):
         self.deployment_id = deployment_id
         self.user_id = user_id
-        self.challenge_id = challenge_id
+        self.image_id = image_id
         self.port = port
         self.created_at = created_at
 
@@ -80,15 +80,15 @@ def get_deployments(user_id):
     else:
         result = {}
         for deployment in deployments:
-            result[deployment.challenge_id] = {
+            result[deployment.image_id] = {
                 "url": f"{HOST_IP}:{deployment.port}/"
             }
         return jsonify({'status': 'success', 'deployments': result})
     
 @app.route('/deploy', methods=['POST'])
-@jwt_verification(["challenge_id", "user_id"])
-def deploy_challenge(challenge_id, user_id):   
-    deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
+@jwt_verification(["image_id", "user_id"])
+def deploy_image(image_id, user_id):   
+    deployment = Deployment.query.filter_by(user_id=user_id, image_id=image_id).first()
     if deployment is None:
         while True:
             port = random.randint(PORT_START, PORT_END)
@@ -96,8 +96,8 @@ def deploy_challenge(challenge_id, user_id):
             if port_exists is None:
                 break
 
-        id = deploy(challenge_id, port, user_id)
-        deployment = Deployment(id, user_id, challenge_id, port, time.time())
+        id = deploy(image_id, port, user_id)
+        deployment = Deployment(id, user_id, image_id, port, time.time())
         db.session.add(deployment)
         db.session.commit()
         return jsonify({"status":"success", "url": f"{HOST_IP}:{port}/"})
@@ -107,9 +107,9 @@ def deploy_challenge(challenge_id, user_id):
 
     
 @app.route('/kill', methods=['POST'])
-@jwt_verification(["challenge_id", "user_id"])
-def kill_challenge(challenge_id, user_id):
-    deployment = Deployment.query.filter_by(user_id=user_id, challenge_id=challenge_id).first()
+@jwt_verification(["image_id", "user_id"])
+def kill_image(image_id, user_id):
+    deployment = Deployment.query.filter_by(user_id=user_id, image_id=image_id).first()
     if deployment is not None:
         remove_deployment(deployment.deployment_id)
         return jsonify({"status":"success"})

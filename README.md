@@ -10,12 +10,11 @@ Deploy docker containers from prebuilt images on demand.
 PORT_START = 40000                                  # Random port range start
 PORT_END = 60000                                    # Random port range end
 APP_PORT = 5015                                     # Server port
-HOST_IP = "http://challenge.host"                   # IP/Host of challenge server
+HOST_IP = "http://image.host"                       # IP/Host of image server
 SECRET = ""                                         # JWT Secret
-challenges = json.load(open("challenges.json"))     # Do not change
 ```
 
-+ Add entries to `./server/challenges.json` to add challenges.
++ Add entries to `./server/images.json` to add images.
 
 ```
 {
@@ -34,7 +33,7 @@ docker-on-demand
 ├── README.md
 ├── server
 │   ├── app.py
-│   ├── challenges.json
+│   ├── images.json
 │   ├── config.py
 │   ├── database.sqlite
 │   ├── deployer.py

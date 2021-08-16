@@ -12,29 +12,29 @@ def get_deployments():
         "user_id": body["user_id"]
     }
     encoded = jwt.encode(data, SECRET, algorithm="HS256")
-    r = requests.post(challenge_server + "/get_deployments", json={"body": encoded}).json()
+    r = requests.post(image_server + "/get_deployments", json={"body": encoded}).json()
     return r
 
-@app.route('/request_deploy/<challenge_id>', methods=['POST'])
-def deploy_challenge(challenge_id):
+@app.route('/request_deploy/<image_id>', methods=['POST'])
+def deploy_image(image_id):
     body = request.get_json()
     data = {
-        "challenge_id": challenge_id,
+        "image_id": image_id,
         "user_id": body["user_id"]
     }
     encoded = jwt.encode(data, SECRET, algorithm="HS256")
-    r = requests.post(challenge_server + "/deploy", json={"body": encoded}).json()
+    r = requests.post(image_server + "/deploy", json={"body": encoded}).json()
     return r
 
 @app.route('/request_kill', methods=['POST'])
-def kill_challenge():
+def kill_image():
     body = request.get_json()
     data = {
-        "challenge_id": body["challenge_id"],
+        "image_id": body["image_id"],
         "user_id": body["user_id"],
     }
     encoded = jwt.encode(data, SECRET, algorithm="HS256")
-    r = requests.post(challenge_server + "/kill", json={"body": encoded}).json()
+    r = requests.post(image_server + "/kill", json={"body": encoded}).json()
     return r
 
 
