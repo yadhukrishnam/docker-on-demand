@@ -3,3 +3,16 @@ __pycache__/
 challenges.json
 *.sqlite
 *.log
+
+venv/
+
+*.pyc
+instance/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+dist/
+build/
+*.egg-info/
