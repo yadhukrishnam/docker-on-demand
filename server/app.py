@@ -55,7 +55,6 @@ def jwt_verification(params):
 def auto_clear():
     sql = text('Select * FROM deployment WHERE :time - created_at > 60').bindparams(time=time.time())
     expired_deployments = db.session.execute(sql).all()
-    print (expired_deployments)
     for deployment in expired_deployments:
         remove_deployment(deployment[0])
     db.session.commit()
