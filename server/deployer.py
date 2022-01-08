@@ -1,7 +1,4 @@
-import requests
 import docker
-import json
-import subprocess
 from config import *
 import re
 
