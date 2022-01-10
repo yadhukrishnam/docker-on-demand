@@ -1,5 +1,5 @@
 [Unit]
-Description=Docker On Demand Service
+Description=Docker-On-Demand Service
 After=network.target
 
 [Service]
