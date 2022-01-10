@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from functools import wraps
 import jwt
-import sys
 import threading
 import os
 import logging
@@ -10,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 import time
 from deployer import *
+from config import SECRET, images
 
 app = Flask(__name__)
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -32,22 +32,32 @@ class Deployment(db.Model):
         self.port = port
         self.created_at = created_at
 
-def jwt_verification(params):
-    def decorator(fn):
-        @wraps(fn)
-        def wrapper(*args, **kwargs):
-            try: 
-                body = request.get_json()["body"]
-                payload = jwt.decode(body, SECRET, algorithms=["HS256"])
-                missing = [r for r in params if r not in payload]
-                if missing:
-                    raise ValueError("Required params not supplied.")
-            except:
+def secure(params=None):
+    def decorator(f):
+        @wraps(f)
+        def check_authorization(*args, **kwargs):
+            if request.headers.get("X-Auth") == SECRET:
+                try:
+                    body = request.get_json()
+                    if params != None:
+                        missing = [r for r in params if r not in body]
+                        if missing:
+                            raise ValueError("Required params not supplied.")
+                except:
+                    response = {'status': 'fail', 'message': 'Invalid JSON body.'}
+                    return jsonify(response), 400
+
+                if params is None:
+                    return f()
+                else:
+                    return f(* tuple(body[item] for item in params))
+            else:
                 response = {'status': 'fail', 'message': 'Invalid token supplied.'}
                 return jsonify(response), 400
-            return fn(* tuple(payload[item] for item in params))
-        return wrapper
+
+        return check_authorization
     return decorator
+
 
 def auto_clear():
     sql = text('Select * FROM deployment WHERE :time - created_at > 60').bindparams(time=time.time())
@@ -67,9 +77,15 @@ def server_error(err):
     app.logger.exception(err)
     return jsonify({'status': 'fail'})  
 
-@app.route('/get_deployments', methods=['POST'])
-@jwt_verification(["user_id"])
-def get_deployments(user_id):
+@app.route('/api/get_deployments', methods=['POST'])
+@secure()
+def get_deployments():
+    result = [image for image in images]
+    return jsonify({'status': 'success', "images": result})
+
+@app.route('/api/get_active_deployments', methods=['POST'])
+@secure(["user_id"])
+def get_active_deployments(user_id):
     deployments = Deployment.query.filter_by(user_id=user_id).all()
     if deployments is None:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
@@ -81,8 +97,8 @@ def get_deployments(user_id):
             }
         return jsonify({'status': 'success', 'deployments': result})
     
-@app.route('/deploy', methods=['POST'])
-@jwt_verification(["image_id", "user_id"])
+@app.route('/api/deploy', methods=['POST'])
+@secure(["image_id", "user_id"])
 def deploy_image(image_id, user_id):   
     deployment = Deployment.query.filter_by(user_id=user_id, image_id=image_id).first()
     if deployment is None:
@@ -102,8 +118,8 @@ def deploy_image(image_id, user_id):
         return jsonify({"status":"success", "url" : f"{HOST_IP}:{deployment.port}/"})
 
     
-@app.route('/kill', methods=['POST'])
-@jwt_verification(["image_id", "user_id"])
+@app.route('/api/kill', methods=['POST'])
+@secure(["image_id", "user_id"])
 def kill_image(image_id, user_id):
     deployment = Deployment.query.filter_by(user_id=user_id, image_id=image_id).first()
     if deployment is not None:
@@ -111,7 +127,7 @@ def kill_image(image_id, user_id):
         return jsonify({"status":"success"})
     else:
         return jsonify({'status':'fail', 'message': 'No such deployment.'}), 404
-        
+
 db.create_all()
 auto_clear()
 
