@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify
 from functools import wraps
-import jwt
 import threading
 import os
 import logging
