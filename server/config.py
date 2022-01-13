@@ -1,7 +1,6 @@
 import json
 
-PORT_START = 40000
-PORT_END = 60000
+PORT_RANGE = (40000, 60000)
 APP_PORT = 5015
 HOST_IP = "http://host"
 

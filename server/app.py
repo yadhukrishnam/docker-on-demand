@@ -1,17 +1,16 @@
 from flask import Flask, request, jsonify, redirect
 from flask.templating import render_template
 from flask_httpauth import HTTPBasicAuth
-from flask_sqlalchemy import SQLAlchemy
 from functools import wraps
 from sqlalchemy import text
+from database import db, Deployment
+from config import credentials, images, PORT_RANGE
 import threading
 import os
 import logging
 import random
 import time
-import base64
 from deployer import *
-from config import credentials, images
 
 app = Flask(__name__)
 auth = HTTPBasicAuth()
@@ -20,24 +19,10 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'database.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-logging.basicConfig(filename='debug.log', level=logging.WARNING,
-                    format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
+db.init_app(app)
 
-class Deployment(db.Model):
-    deployment_id = db.Column(db.String(65), primary_key=True)
-    user_id = db.Column(db.String(200), nullable=False)
-    image_id = db.Column(db.String(200), nullable=False)
-    port = db.Column(db.Integer, nullable=False)
-    created_at = db.Column(db.String(80), nullable=False)
-
-    def __init__(self, deployment_id, user_id, image_id, port, created_at):
-        self.deployment_id = deployment_id
-        self.user_id = user_id
-        self.image_id = image_id
-        self.port = port
-        self.created_at = created_at
+#logging.basicConfig(filename='debug.log', level=logging.WARNING, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 
 def secure(params=None):
@@ -60,15 +45,6 @@ def secure(params=None):
             else:
                 return f(* tuple(body[item] for item in params))
         return check_authorization
-    return decorator
-
-
-def is_admin():
-    def decorator(f):
-        @wraps(f)
-        def check_admin(*args, **kwards):
-            return auth.current_user() == "admin"
-        return check_admin
     return decorator
 
 
@@ -115,7 +91,11 @@ def get_images():
 @app.route('/api/get_deployments', methods=['POST'])
 @auth.login_required
 def get_deployments():
+    if auth.current_user() != "admin":
+        return jsonify({"status": "fail", "message": "Unauthorized"})
+
     deployments = Deployment.query.filter_by().all()
+
     if deployments is None:
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     else:
@@ -155,7 +135,7 @@ def deploy_image(image_id, user_id):
         user_id=user_id, image_id=image_id).first()
     if deployment is None:
         while True:
-            port = random.randint(PORT_START, PORT_END)
+            port = random.randint(PORT_RANGE[0], PORT_RANGE[1])
             port_exists = Deployment.query.filter_by(port=port).first()
             if port_exists is None:
                 break
@@ -164,10 +144,10 @@ def deploy_image(image_id, user_id):
         deployment = Deployment(id, user_id, image_id, port, time.time())
         db.session.add(deployment)
         db.session.commit()
-        return jsonify({"status": "success", "url": f"{HOST_IP}:{port}/"})
+        return jsonify({"status": "success", "port": port})
     else:
         print(deployment)
-        return jsonify({"status": "success", "url": f"{HOST_IP}:{deployment.port}/"})
+        return jsonify({"status": "success", "port": deployment.port})
 
 
 @app.route('/api/kill', methods=['POST'])
@@ -207,8 +187,9 @@ def logout():
     return "Bye!", 401
 
 
-db.create_all()
-auto_clear()
+with app.app_context():
+    db.create_all()
+    auto_clear()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=APP_PORT, debug=True)
