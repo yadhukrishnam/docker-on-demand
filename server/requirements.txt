@@ -3,3 +3,4 @@ requests
 flask
 flask_sqlalchemy
 gunicorn
+flask_httpauth
