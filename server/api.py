@@ -36,16 +36,6 @@ def secure(params=None):
     return decorator
 
 
-def auto_clear():
-    sql = text(
-        'Select * FROM deployment WHERE :time - created_at > 60').bindparams(time=time.time())
-    expired_deployments = db.session.execute(sql).all()
-    for deployment in expired_deployments:
-        remove_deployment(deployment[0])
-    db.session.commit()
-    threading.Timer(20, auto_clear).start()
-
-
 def remove_deployment(deployment_id):
     kill(deployment_id)
     Deployment.query.filter_by(deployment_id=deployment_id).delete()

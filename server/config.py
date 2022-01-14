@@ -11,6 +11,7 @@ with open("./config/config.yaml", "r") as stream:
 PORT_RANGE = (config["app_conf"]["port_start"], config["app_conf"]["port_end"])
 APP_PORT = config["app_conf"]["app_port"]
 HOST_IP = config["app_conf"]["host"]
+DEBUG = config["app_conf"]["debug"]
 
 credentials = {
     "admin": config["credentials"]["admin"],
@@ -18,4 +19,3 @@ credentials = {
 }
 
 images = config["images"]
-print (credentials)

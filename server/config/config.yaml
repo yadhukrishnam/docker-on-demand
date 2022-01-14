@@ -9,6 +9,7 @@ app_conf:
   port_end: 60000
   app_port: 5015
   host: "http://127.0.0.1"
+  debug: False
 
 credentials:
   admin: admin
