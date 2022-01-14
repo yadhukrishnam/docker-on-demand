@@ -121,7 +121,6 @@ def deploy_image(image_id, user_id):
         db.session.commit()
         return jsonify({"status": "success", "port": port})
     else:
-        print(deployment)
         return jsonify({"status": "success", "port": deployment.port})
 
 

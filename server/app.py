@@ -22,7 +22,7 @@ logging.basicConfig(filename='debug.log', level=logging.WARNING, format=f'%(asct
 
 @app.errorhandler(Exception)
 def server_error(err):
-    app.logger.exception(err)
+    api.logger.exception(err)
     return jsonify({'status': 'fail'})
 
 
@@ -52,7 +52,6 @@ def logout():
 
 with app.app_context():
     db.create_all()
-    auto_clear()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=APP_PORT, debug=True)

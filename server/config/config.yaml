@@ -1,0 +1,15 @@
+version: 1.0
+
+images:
+  image_name:
+    local_port: 8080
+
+app_conf:
+  port_start: 40000
+  port_end: 60000
+  app_port: 5015
+  host: "http://127.0.0.1"
+
+credentials:
+  admin: admin
+  user: user
