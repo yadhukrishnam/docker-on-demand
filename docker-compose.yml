@@ -8,7 +8,7 @@ services:
     ports:
       - 1337:1337
     environment:
-      - APP_IMAGES=example_image:1234,other_image:4444
+      - APP_IMAGES=example_image|1234,other_image|4444
       - APP_ADMIN_PASSWORD=adminpass
       - APP_USER_PASSWORD=userpass
       - SECRET_KEY=aN_3X4mpL3_s3Cr3t_K3y

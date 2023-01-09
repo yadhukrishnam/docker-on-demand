@@ -35,7 +35,7 @@ if tmp:
     config['images'] = {}
     tmp = tmp.split(',')
     for image in tmp:
-        image = image.split(':')
+        image = image.split('|')
         config['images'][image[0]] = {
             'local_port' : int(image[1])
         }
