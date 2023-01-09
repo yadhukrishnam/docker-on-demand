@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, current_app
 from flask.templating import render_template
 from database import db
 from config import *
@@ -23,7 +23,7 @@ logging.basicConfig(filename='debug.log', level=logging.WARNING,
 
 @app.errorhandler(Exception)
 def server_error(err):
-    api.logger.exception(err)
+    current_app.logger.exception(err)
     return jsonify({'status': 'fail'})
 
 
