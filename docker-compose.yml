@@ -17,10 +17,12 @@ services:
       - LOG_FOLDER=/var/log/docker-on-demand
       - ACCESS_LOG=-
       - ERROR_LOG=-
+      - DOCKER_HOST=unix:///var/run/docker.sock
     restart: always
     volumes:
       - docker-on-demand-logs:/var/log/docker-on-demand
       - docker-on-demand-data:/var/data
+      - /var/run/docker.sock:/var/run/docker.sock
 
 volumes:
   docker-on-demand-data:
