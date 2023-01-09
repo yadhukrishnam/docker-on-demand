@@ -1,0 +1,29 @@
+version: "3.7"
+services:
+  docker-on-demand:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: docker_on_demand
+    ports:
+      - 1337:1337
+    environment:
+      - APP_IMAGES=example_image:1234,other_image:4444
+      - APP_ADMIN_PASSWORD=adminpass
+      - APP_USER_PASSWORD=userpass
+      - SECRET_KEY=aN_3X4mpL3_s3Cr3t_K3y
+      - WORKERS=4
+      - DATA_FOLDER=/var/data
+      - LOG_FOLDER=/var/log/docker-on-demand
+      - ACCESS_LOG=-
+      - ERROR_LOG=-
+    restart: always
+    volumes:
+      - docker-on-demand-logs:/var/log/docker-on-demand
+      - docker-on-demand-data:/var/data
+
+volumes:
+  docker-on-demand-data:
+    name: docker-on-demand-data
+  docker-on-demand-logs:
+    name: docker-on-demand-logs

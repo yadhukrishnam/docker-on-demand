@@ -10,9 +10,8 @@ from api import api
 app = Flask(__name__)
 app.register_blueprint(api)
 
-basedir = os.path.abspath(os.path.dirname(__file__))
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
-    os.path.join(basedir, 'database.sqlite')
+    os.path.join(DATA_FOLDER, 'database.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
