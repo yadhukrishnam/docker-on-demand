@@ -1,0 +1,534 @@
+ * Serving Flask app 'app'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.160.0.2:5000
+Press CTRL+C to quit
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10561 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+dc3f9aa2b33d03d637a19f5b263cfd2b2f8566d46478dd2613576848ba63c151
+127.0.0.1 - - [23/Jan/2023 12:37:29] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10588 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+7f76307b89b4c107b94478a81dabbea4ebf6ec0633415cecffb307333b034a4f
+127.0.0.1 - - [23/Jan/2023 13:01:22] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10338 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+e5684848ba88c931844ba4871f428e97bbb5a117d5b50bca493c22418e137ca4
+127.0.0.1 - - [23/Jan/2023 18:24:35] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10449 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+b2a82ef007561043268ed7dae79fc558fee6bb69dd4058d031c0ea30b7ed1d17
+127.0.0.1 - - [23/Jan/2023 21:45:03] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10475 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+e7348acd6a5d7b1149ba9f7bec188401b2114f59d754b7f6d34ce3ef1aacf886
+127.0.0.1 - - [24/Jan/2023 02:07:15] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10127 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+924d9062e607b968b9c712271232cab065aed9b143a31d470cb52c68903fbf77
+127.0.0.1 - - [24/Jan/2023 06:43:11] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10036 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+b0fe3b1a638dfdd05098cecef7391087aaa94f7d310212ca04164a624a32a1f1
+127.0.0.1 - - [24/Jan/2023 10:22:50] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10758 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+941b028488e639ac7c30cabcf7b626f3d60b5c5d57fcf95d2e39e4f4d0909237
+127.0.0.1 - - [25/Jan/2023 12:30:34] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'snek', 'user_id': 'admin'}
+Params: snek 10953 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}
+Deploying:  snek
+38a09352dfccfe1f65b330675d991ff83ea65b86e5084fa17c641fb349cdf312
+127.0.0.1 - - [26/Jan/2023 15:45:08] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'snek', 'user_id': 'admin'}
+Params: snek 10531 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}
+Deploying:  snek
+32a0201a80855282368381672c0027ca021c34f2e3b5eedaf850ec55d9aa0045
+127.0.0.1 - - [26/Jan/2023 15:57:11] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10862 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+8bbeb2fbc0bc13bb87a1a7c026e336b9526c15fd6552208e0d54610929d06b44
+127.0.0.1 - - [27/Jan/2023 17:12:32] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10132 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+b8b5d70277c96586a4a639cb83c2956fad771b1cf951280ab61bf3824fb9b23d
+127.0.0.1 - - [27/Jan/2023 17:33:17] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10817 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+/home/ubuntu/docker-on-demand/server/api.py:127: SAWarning: Column 'deployment.deployment_id' is marked as a member of the primary key for table 'deployment', but has no Python-side or server-side default generator indicated, nor does it indicate 'autoincrement=True' or 'nullable=True', and no explicit value is passed.  Primary key columns typically may not store NULL.
+  db.session.commit()
+[2023-01-27 17:46:19,664] ERROR in app: (sqlite3.IntegrityError) NOT NULL constraint failed: deployment.deployment_id
+[SQL: INSERT INTO deployment (user_id, image_id, port, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('admin', 'pycgi', 10817, 1674841579.6481004)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: NOT NULL constraint failed: deployment.deployment_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/docker-on-demand/server/api.py", line 46, in check_authorization
+    return f(* tuple(body[item] for item in params))
+  File "/home/ubuntu/docker-on-demand/server/api.py", line 127, in deploy_image
+    db.session.commit()
+  File "<string>", line 2, in commit
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
+    self._transaction.commit(_to_root=self.future)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 829, in commit
+    self._prepare_impl()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
+    self.session.flush()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
+    self._flush(objects)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3583, in _flush
+    with util.safe_reraise():
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
+    flush_context.execute()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
+    rec.execute(self)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    _emit_insert_statements(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1238, in _emit_insert_statements
+    result = connection._execute_20(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: deployment.deployment_id
+[SQL: INSERT INTO deployment (user_id, image_id, port, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('admin', 'pycgi', 10817, 1674841579.6481004)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+127.0.0.1 - - [27/Jan/2023 17:46:19] "POST /api/deploy HTTP/1.1" 200 -
+Error: 409 Client Error for http+docker://localhost/v1.41/containers/create?name=admin_10817: Conflict ("Conflict. The container name "/admin_10817" is already in use by container "7e8007ef953e4b570395bdf354338406362dcb6f218c6c64beb8b92287e58718". You have to remove (or rename) that container to be able to reuse that name.")
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10217 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+467c769ee0c69f1bc26a5d0dd046a1b12da68f38a0e17a97f99890a7aa4fffbf
+127.0.0.1 - - [27/Jan/2023 17:47:20] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10814 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+9c695cd4e9ba57a835a2bec880657873239f98cf48d2747c54a9248a3a9d3def
+127.0.0.1 - - [27/Jan/2023 18:00:14] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10103 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+d302e9d659186653af5c2494ddd1b33374f0861e182fcba117b0951371c0e4ce
+127.0.0.1 - - [28/Jan/2023 11:02:12] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10969 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+bba3f5936511b1c0923163e106c6c95ae4d2661433c99ae1b76d198b5a29d22e
+127.0.0.1 - - [29/Jan/2023 11:35:09] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10420 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+e37e52a91c7140acdc6ba3eb2b61805fbe471e4b62add6b993994f6d4f4d07dc
+127.0.0.1 - - [29/Jan/2023 11:46:58] "POST /api/deploy HTTP/1.1" 200 -
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10264 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+2179f50b01290c5390626a4c3acad239e2618acccf63539d21a636419bcf178d
+127.0.0.1 - - [29/Jan/2023 11:53:42] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10640 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+88623798cb368bb05f2247f66f102f869323a1e0cdf0b36305b29b6476e286b1
+127.0.0.1 - - [29/Jan/2023 12:00:46] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10374 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+b9ee5e4ea701b7d2766753ba84af185cfe5e44a51ffdba12da08efefdc9d7327
+127.0.0.1 - - [29/Jan/2023 21:39:35] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10397 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+508c5b3a3504a596c54f539ef485801e09f77b97a3907a88fafc7da1c34de681
+127.0.0.1 - - [29/Jan/2023 22:00:08] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10785 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+02ee22f8e3a6c02a968de613052fdf69ca17f89d834442bf1642510758039839
+127.0.0.1 - - [29/Jan/2023 22:12:11] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10634 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+[2023-01-30 06:51:26,858] ERROR in app: (sqlite3.IntegrityError) NOT NULL constraint failed: deployment.deployment_id
+[SQL: INSERT INTO deployment (user_id, image_id, port, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('admin', 'pycgi', 10634, 1675061486.852482)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlite3.IntegrityError: NOT NULL constraint failed: deployment.deployment_id
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/ubuntu/docker-on-demand/server/api.py", line 46, in check_authorization
+    return f(* tuple(body[item] for item in params))
+  File "/home/ubuntu/docker-on-demand/server/api.py", line 127, in deploy_image
+    db.session.commit()
+  File "<string>", line 2, in commit
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1451, in commit
+    self._transaction.commit(_to_root=self.future)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 829, in commit
+    self._prepare_impl()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 808, in _prepare_impl
+    self.session.flush()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3444, in flush
+    self._flush(objects)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3583, in _flush
+    with util.safe_reraise():
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 70, in __exit__
+    compat.raise_(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 3544, in _flush
+    flush_context.execute()
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 456, in execute
+    rec.execute(self)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/unitofwork.py", line 630, in execute
+    util.preloaded.orm_persistence.save_obj(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 245, in save_obj
+    _emit_insert_statements(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/orm/persistence.py", line 1238, in _emit_insert_statements
+    result = connection._execute_20(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1705, in _execute_20
+    return meth(self, args_10style, kwargs_10style, execution_options)
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/sql/elements.py", line 334, in _execute_on_connection
+    return connection._execute_clauseelement(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1572, in _execute_clauseelement
+    ret = self._execute_context(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1943, in _execute_context
+    self._handle_dbapi_exception(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 2124, in _handle_dbapi_exception
+    util.raise_(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/util/compat.py", line 211, in raise_
+    raise exception
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 1900, in _execute_context
+    self.dialect.do_execute(
+  File "/home/ubuntu/.local/lib/python3.10/site-packages/sqlalchemy/engine/default.py", line 736, in do_execute
+    cursor.execute(statement, parameters)
+sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: deployment.deployment_id
+[SQL: INSERT INTO deployment (user_id, image_id, port, created_at) VALUES (?, ?, ?, ?)]
+[parameters: ('admin', 'pycgi', 10634, 1675061486.852482)]
+(Background on this error at: https://sqlalche.me/e/14/gkpj)
+127.0.0.1 - - [30/Jan/2023 06:51:26] "POST /api/deploy HTTP/1.1" 200 -
+Error: 409 Client Error for http+docker://localhost/v1.41/containers/create?name=admin_10634: Conflict ("Conflict. The container name "/admin_10634" is already in use by container "64007aac5dfd9faaddeb32ea2060a38d3da86790489f3cf6474f650682dd3336". You have to remove (or rename) that container to be able to reuse that name.")
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10416 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10060 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+c2a6dde97ca37617025d14dcbf8d6c0bbf80452bdcc903c8c13956bca20d6c2d
+127.0.0.1 - - [30/Jan/2023 06:52:15] "POST /api/deploy HTTP/1.1" 200 -
+98999d19171c39ac4b34a493d14c21261b682193156164f41e77ca4296db5aeb
+127.0.0.1 - - [30/Jan/2023 06:52:16] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
+Params: ['image_id', 'user_id']
+Body {'image_id': 'pycgi', 'user_id': 'admin'}
+Params: pycgi 10614 admin [{'image_name': 'snek', 'local_port': 7000, 'timeout': 300}, {'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}]
+{'image_name': 'snek', 'local_port': 7000, 'timeout': 300} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600} aaaaaaaaaaaaaa
+{'image_name': 'pycgi', 'local_port': 8000, 'timeout': 600}
+Deploying:  pycgi
+27a487e98d652b239590a297c07ea4588df023d1a99189878a152bfd8d0ddbed
+127.0.0.1 - - [30/Jan/2023 07:13:08] "POST /api/deploy HTTP/1.1" 200 -
+Trying to remove container record
+Working outside of application context.
+
+This typically means that you attempted to use functionality that needed
+the current application. To solve this, set up an application context
+with app.app_context(). See the documentation for more information.
