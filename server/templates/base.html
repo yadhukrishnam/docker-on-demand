@@ -1,0 +1,36 @@
+
+<!doctype html>
+<html lang="en">
+  {% include 'parts/head.html' %}
+  <body>
+    <main class="d-flex flex-nowrap">
+      {% include 'parts/side_nav.html' %}
+      <div class="container-fluid">
+        <div class="row">
+          <main role="main" class="col-md-12 ml-sm-auto col-lg-12 pt-3 px-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+              <div class="row">
+                <h1 class="h1">Instancer</h1>
+              </div>
+              <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group mr-2">
+                  <button class="btn btn-sm btn-primary"><i class="bi bi-arrow-counterclockwise"></i> Refresh</button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              {% block content %}{% endblock %}
+            </div>
+          </main>
+        </div>
+      </div>
+
+      <!-- Bootstrap core JavaScript
+      ================================================== -->
+      </main>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+      <script src="/static/app.js"></script>
+      {% block scripts %}{% endblock %}
+  </body>
+</html>
