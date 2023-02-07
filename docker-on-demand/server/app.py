@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify, redirect, current_app
 from flask.templating import render_template
 from database import db
 from config import *
@@ -17,14 +17,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-logging.basicConfig(filename='debug.log', level=logging.WARNING,
-                    format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+#logging.basicConfig(filename='debug.log', level=logging.WARNING,
+#                    format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
 
 
 @app.errorhandler(Exception)
 def server_error(err):
-    api.logger.exception(err)
-    return jsonify({'status': 'fail'})
+    
+    current_app.logger.exception(err)
+    return jsonify({'status': 'fail','error':"server_error"})
 
 
 @app.route("/")

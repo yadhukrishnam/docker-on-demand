@@ -1,0 +1,11 @@
+CONTAINER ID   IMAGE     COMMAND                  CREATED              STATUS              PORTS                                                 NAMES
+ea9b8d6d939f   pycgi     "/docker-entrypoint.…"   About a minute ago   Up About a minute   80/tcp, 0.0.0.0:10584->8000/tcp, :::10584->8000/tcp   admin_10584
+687bdafaea4b   pycgi     "/docker-entrypoint.…"   3 minutes ago        Up 3 minutes        80/tcp, 0.0.0.0:10701->8000/tcp, :::10701->8000/tcp   admin_10701
+8fb7521ecb7d   snek      "docker-entrypoint.s…"   4 minutes ago        Up 4 minutes        0.0.0.0:10017->7000/tcp, :::10017->7000/tcp           admin_10017
+e9ec3ec54621   pycgi     "/docker-entrypoint.…"   5 minutes ago        Up 5 minutes        80/tcp, 0.0.0.0:10815->8000/tcp, :::10815->8000/tcp   admin_10815
+3c18280acc42   pycgi     "/docker-entrypoint.…"   5 minutes ago        Up 5 minutes        80/tcp, 0.0.0.0:10652->8000/tcp, :::10652->8000/tcp   admin_10652
+7ebc6abb7a77   pycgi     "/docker-entrypoint.…"   5 minutes ago        Up 5 minutes        80/tcp, 0.0.0.0:10913->8000/tcp, :::10913->8000/tcp   admin_10913
+dce6294cdb4b   pycgi     "/docker-entrypoint.…"   8 minutes ago        Up 8 minutes        80/tcp, 0.0.0.0:10342->8000/tcp, :::10342->8000/tcp   admin_10342
+c4175ea28bd1   pycgi     "/docker-entrypoint.…"   8 minutes ago        Up 8 minutes        80/tcp, 0.0.0.0:10403->8000/tcp, :::10403->8000/tcp   admin_10403
+9053eba7c610   pycgi     "/docker-entrypoint.…"   8 minutes ago        Up 8 minutes        80/tcp, 0.0.0.0:10614->8000/tcp, :::10614->8000/tcp   admin_10614
+d5a18a2f8fd0   pycgi     "/docker-entrypoint.…"   9 minutes ago        Up 9 minutes        80/tcp, 0.0.0.0:10080->8000/tcp, :::10080->8000/tcp   admin_10080
