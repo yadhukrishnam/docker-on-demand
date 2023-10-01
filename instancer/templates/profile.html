@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>your profile</title>
+
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+
+    <!-- MD Bootstrap CDN -->
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Page Specific Styling -->
+    <link rel="stylesheet" href="../static/style.css" />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+      .card {
+        align-items: center;
+        justify-content: center;
+        box-shadow: 16px 5px 300px 200px rgba(122, 118, 161, 0.3);
+        background-color: #2b2835;
+        border-style: inset outset outset double;
+        border-color: rgb(149, 147, 163);
+        color: antiquewhite;
+      }
+
+      .card {
+        padding: 15px;
+        border-radius: 15px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      .card-body {
+        letter-spacing: 2px;
+      }
+      .crdimg {
+        max-width: 250px;
+        max-height: 250px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="container-fluid">
+        <div class="navBarButton">
+          <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
+            >&#9776;</span
+          >
+        </div>
+        <div class="middleTitle">
+          <a class="navbar-brand" href="#">
+            <small style="color: antiquewhite">Web Security Labs</small>
+          </a>
+        </div>
+
+        <div class="search">
+          <form action="" class="searchForm">
+            <input type="search" required class="inputSearch" />
+            <i class="fa fa-search"></i>
+            <a class="aInSearch" href="javascript:void(0)" id="clear-btn"
+              >Clear</a
+            >
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side Nav -->
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{{url_for('profile')}}">Profile</a>
+      <a href="{{url_for('home')}}">Home</a>
+      <a href="{{url_for('challenges')}}">Challenges</a>
+      <a href="{{url_for('scoreboard')}}">Score Board</a>
+      <a href="{{url_for('flags')}}">Flags</a>
+      <a href="#">Log out</a>
+    </div>
+
+    <div class="content" id="main">
+      <div class="d-flex justify-content-center px-5">
+        <div class="col col-md-6 cardarea">
+          <div class="card" style="width: 25rem;">
+            <h4><b>Profile</b></h4>
+            <img src="../static/man.png" class="card-img-top crdimg" alt="...">
+            <div class="card-body">
+              <table>
+                <tr>
+                  <th>First Name:</th>
+                  <td class="proFname">aaaa</td>
+                </tr>
+                <tr>
+                  <th>Last Name:</th>
+                  <td class="proLname">aaaa</td>
+                </tr>
+                <tr>
+                  <th>E-mail:</th>
+                  <td class="promail">aaaa@aaa</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col col-md-6 cardarea">
+          <div class="card" style="width: 25rem;">
+            <h4><b>Score Board</b></h4>
+            <img src="../static/high-score.png" class="card-img-top crdimg" alt="...">
+            <div class="card-body">
+              <table>
+                <tr>
+                  <th>First Name:</th>
+                  <td class="proFname">aaaa</td>
+                </tr>
+                <tr>
+                  <th>Last Name:</th>
+                  <td class="proLname">aaaa</td>
+                </tr>
+                <tr>
+                  <th>Challenges completed:</th>
+                  <td class="proschal">1111</td>
+                </tr>
+                <tr>
+                  <th>Total Score:</th>
+                  <td class="proscore">1111</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- footer -->
+    <div class="myfooter">
+      <section class="">
+        <footer class="text-white foot">
+          <div class="container p-4">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Final Project</h5>
+                <p>
+                  This is a final project done by BCA 2020-23 students at amrita
+                  vishwa vidyapeethan ,amritapuri campus. this project focuses
+                  on cybersecurity and our users can test their security skils
+                  by solving our challenges.
+                </p>
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0"></div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <!-- <h5 class="text-uppercase mb-0">Pages</h5> -->
+
+                <ul class="list-unstyled">
+                  <li>
+                    <a href="{{url_for('profile')}}" class="text-white"
+                      >profile</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{url_for('challenges')}}" class="text-white"
+                      >challenges</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{url_for('scoreboard')}}" class="text-white"
+                      >score board</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{url_for('aboutus')}}" class="text-white">About Us</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('contactus')}}" class="text-white">contact Us</a>
+                  </li>
+                </ul>
+              </div>
+              <!--Grid column-->
+            </div>
+            <!--Grid row-->
+          </div>
+          <!-- Grid container -->
+
+          <!-- Copyright -->
+          <div
+            class="text-center p-3"
+            style="background-color: rgba(28, 29, 51, 0.525)"
+          >
+            © 2023 Copyright:
+            <a class="text-white">Aditya Varma</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
+    </div>
+  </body>
+
+  <script src="../static/script.js"></script>
+  <!-- Bootstrap CDN -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"
+  ></script>
+  <!-- MD Bootstrap CDN -->
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+  ></script>
+  <!-- Page Specific Script -->
+  <script src="" async defer></script>
+</html>

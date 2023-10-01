@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Welcome page</title>
+
+    <!-- Bootstrap CDN -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+
+    <!-- MD Bootstrap CDN -->
+
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Page Specific Styling -->
+    <link rel="stylesheet" href="..\static\style.css" />
+    <style>
+
+      @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+      #typed-strings {
+        align-items: center;
+        justify-content: center;
+       
+      }
+      @keyframes rainbow {
+        0% {
+          color: antiquewhite;
+        }
+        14% {
+          color: white;
+        }
+        28% {
+          color: whitesmoke;
+        }
+        42% {
+          color: antiquewhite;
+        }
+        57% {
+          color: rgb(187, 187, 205);
+        }
+        71% {
+          color: whitesmoke;
+        }
+        85% {
+          color: white;
+        }
+        100% {
+          color: antiquewhite;
+        }
+      }
+
+      .rainbow-text {
+        animation: rainbow 2s infinite;
+        font-family: 'Poppins', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Top Navbar -->
+    <nav class="navbar">
+      <div class="container-fluid">
+        <div class="navBarButton">
+          <span style="font-size: 30px; cursor: pointer" onclick="openNav()"
+            >&#9776;</span
+          >
+        </div>
+        <div class="middleTitle">
+          <a class="navbar-brand" href="#">
+            <small style="color: antiquewhite">Web Security Labs</small>
+          </a>
+        </div>
+
+        <div class="search">
+          <form action="" class="searchForm">
+            <input type="search" required class="inputSearch" />
+            <i class="fa fa-search"></i>
+            <a class="aInSearch" href="javascript:void(0)" id="clear-btn"
+              >Clear</a
+            >
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Side Nav -->
+
+    <div id="mySidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+        >&times;</a
+      >
+      <a href="{{url_for('profile')}}">Profile</a>
+      <a href="{{url_for('home')}}">Home</a>
+      <a href="{{url_for('challenges')}}">Challenges</a>
+      <a href="{{url_for('scoreboard')}}">Score Board</a>
+      <a href="{{url_for('flags')}}">Flags</a>
+      <a href="#">Log out</a>
+    </div>
+
+    <div class="content d-flex justify-content-center" id="main">
+      <div id="typed-strings" class="">
+        <div class="d-flex">
+          <div class="text-center display-1 rainbow-text">Welcome</div>
+          <div class="text-center display-1 rainbow-text">To</div>
+          <div class="text-center display-1 rainbow-text">Advanced Web Security</div>
+          <div class="text-center display-1 rainbow-text">Labs</div>
+        </div>
+      </div>
+      <span id="element"></span>
+    </div>
+    <!-- footer -->
+    <div class="myfooter">
+      <section class="">
+        <footer class="text-white foot">
+          <div class="container p-4">
+            <div class="row">
+              <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+                <h5 class="text-uppercase">Final Project</h5>
+                <p>
+                  This is a final project done by BCA 2020-23 students at amrita
+                  vishwa vidyapeethan ,amritapuri campus. this project focuses
+                  on cybersecurity and our users can test their security skils
+                  by solving our challenges.
+                </p>
+              </div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0"></div>
+              <!--Grid column-->
+
+              <!--Grid column-->
+              <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+                <!-- <h5 class="text-uppercase mb-0">Pages</h5> -->
+
+                <ul class="list-unstyled">
+                  <li>
+                    <a href="{{url_for('profile')}}" class="text-white">profile</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('challenges')}}" class="text-white"
+                      >challenges</a
+                    >
+                  </li>
+                  <li>
+                    <a href="{{url_for('scoreboard')}}" class="text-white">score board</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('aboutus')}}" class="text-white">About Us</a>
+                  </li>
+                  <li>
+                    <a href="{{url_for('contactus')}}" class="text-white">contact Us</a>
+                  </li>
+                </ul>
+              </div>
+              <!--Grid column-->
+            </div>
+            <!--Grid row-->
+          </div>
+          <!-- Grid container -->
+
+          <!-- Copyright -->
+          <div
+            class="text-center p-3"
+            style="background-color: rgba(28, 29, 51, 0.525)"
+          >
+            © 2023 Copyright:
+            <a class="text-white">Aditya Varma</a>
+          </div>
+          <!-- Copyright -->
+        </footer>
+        <!-- Footer -->
+      </section>
+    </div>
+  </body>
+
+  <script src="../static/script.js"></script>
+  <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+  <script>
+    var typed = new Typed("#element", {
+      stringsElement: "#typed-strings",
+      typeSpeed: 50,
+    });
+  </script>
+  <!-- Bootstrap CDN -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+    crossorigin="anonymous"
+  ></script>
+  <!-- MD Bootstrap CDN -->
+  <script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"
+  ></script>
+  <!-- Page Specific Script -->
+  <script src="" async defer></script>
+</html>
