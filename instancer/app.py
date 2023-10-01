@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, redirect, session, url_for
 from flask.templating import render_template
 #from flask_wtf import RecaptchaField
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user 
-from database import db, Users, Challenges, SolvedChallenges, Deployment
 import logging, uuid
 import requests
 import yaml
@@ -29,7 +28,7 @@ with open(CONFIG_PATH, "r") as stream: # load config
 
 
 CHALL_NAMES = config["images"]
-API_URL = "http://localhost:5015"
+API_URL = "http://localhost:1337"
 print(CHALL_NAMES)
 
 def PoW():
