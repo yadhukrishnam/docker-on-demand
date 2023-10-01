@@ -30,15 +30,7 @@ config['app_conf']['debug'] = (str(os.getenv('APP_DEBUG', config['app_conf']['de
 DATA_FOLDER = os.getenv('DATA_FOLDER', os.path.abspath(os.path.dirname(__file__)))
 
 # Get images from env variables
-tmp = os.getenv('APP_IMAGES', None)
-if tmp:
-    config['images'] = {}
-    tmp = tmp.split(',')
-    for image in tmp:
-        image = image.split('|')
-        config['images'][image[0]] = {
-            'local_port' : int(image[1])
-        }
+
 
 
 # Check if user was given through environment
