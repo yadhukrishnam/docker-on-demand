@@ -76,7 +76,7 @@ def get_deployments():
             "port": [con.ports[i][0]['HostPort'] if con.ports[i] else "not-found" for i in con.ports][0],
             "image_id": con.image.tags[0],
             "user_id": "admin",
-            "deployment_id": con.attrs['Id'],
+            "deployment_id": con.attrs['Id'][:10],
             "created_at": con.attrs['Created']
         }
         print(result)
@@ -126,7 +126,9 @@ def kill_image(deployment_id, user_id):
         current_containers.append(con.id)
     if(deployment_id in current_containers):
         current_containers.remove(deployment_id)
-        instant_kill(deployment_id)
-        return jsonify({"status": "success"})
+        if instant_kill(deployment_id) == True:
+            return jsonify({"status": "success"})
+        else:
+            return jsonify({'status': 'fail', 'message': 'Error killing deployment.'}), 404    
     else:
         return jsonify({'status': 'fail', 'message': 'No such deployment.'}), 404

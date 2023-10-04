@@ -36,7 +36,7 @@ def kill(container_id,timeout): # function to kill container after timeout secon
         time.sleep(timeout)
         client = docker.from_env()
         container = client.containers.get(container_id)
-        with open("logs/"+container_id[0:10]+".txt","w") as f:
+        with open(f"logs/container_log_{container_id[0:10]}.txt", "w") as f:
             f.write(container.logs().decode())
         container.kill()
         container.remove()
@@ -49,15 +49,14 @@ def kill(container_id,timeout): # function to kill container after timeout secon
     
 def instant_kill(container_id): # function to kill container immediately 
     try:
-        print("calling instant_kill",flush=True)
+        print("calling instant_kill", flush=True)
         client = docker.from_env()
         container = client.containers.get(container_id)
-        with open("logs/"+container_id[0:10]+".txt","w") as f:
+        with open(f"logs/container_log_{container_id[0:10]}.txt", "w") as f:
             f.write(container.logs().decode())
         container.kill()
         container.remove()
         client.close()
+        return True
     except:
         return False
-    finally:
-        return True
