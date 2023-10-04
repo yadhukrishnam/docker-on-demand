@@ -1,9 +1,0 @@
-docker
-requests
-flask
-flask-wtf
-flask_sqlalchemy
-sqlalchemy_utils
-gunicorn
-flask_httpauth
-flask_login
