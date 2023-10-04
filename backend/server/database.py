@@ -2,6 +2,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Deployment(db.Model):
     deployment_id = db.Column(db.String(65), primary_key=True)
     user_id = db.Column(db.String(200), nullable=False)

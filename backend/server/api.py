@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request,Flask
+from flask import Blueprint, jsonify, request, Flask
 from config import *
 from sqlalchemy import text
 from deployer import deploy, kill
@@ -8,9 +8,7 @@ from database import db, Deployment
 from database import Deployment
 import time
 import random
-import yaml
 import docker
-import json
 from deployer import deploy, instant_kill
 from threading import Thread
 
@@ -30,7 +28,8 @@ def secure(params=None):
                     if missing:
                         raise ValueError("Required params not supplied.")
             except Exception as e:
-                response = {'status': 'fail', 'message': f'Invalid JSON body {e}'}
+                response = {'status': 'fail',
+                            'message': f'Invalid JSON body {e}'}
                 return jsonify(response), 400
 
             if params is None:
@@ -41,14 +40,22 @@ def secure(params=None):
     return decorator
 
 
-def clear_data(container_id,timeout): # function to clear data after timeout
+def get_image_info(image_name):
+    global images
+    for image in images:
+        if image['image_name'] == image_name:
+            return image
+
+
+def clear_data(container_id, timeout):  # function to clear data after timeout
     time.sleep(timeout)
-    print("Trying to remove container record",flush=True)
+    print("Trying to remove container record", flush=True)
     try:
-        Deployment.query.filter_by(deployment_id=container_id).delete() # can remove this after docker api is independent of db
+        # can remove this after docker api is independent of db
+        Deployment.query.filter_by(deployment_id=container_id).delete()
         db.session.commit()
     except Exception as e:
-        print(e,flush=True)
+        print(e, flush=True)
 
 
 @api.route('/api/get_images', methods=['GET'])
@@ -56,20 +63,21 @@ def clear_data(container_id,timeout): # function to clear data after timeout
 def get_images():
     result = []
     for image in images:
-        result.append({"imagename": image["image_name"], "port": image["local_port"]})
+        result.append(
+            {"imagename": image["image_name"], "port": image["local_port"]})
     return jsonify({'status': 'success', "images": result})
 
 
-@api.route('/api/get_deployments', methods=['POST']) # get all deployments
+@api.route('/api/get_deployments', methods=['POST'])  # get all deployments
 @auth.login_required
 def get_deployments():
     if auth.current_user() != "admin":
         return jsonify({"status": "faill", "message": "Unauthorized"})
-  
+
     result = {}
     client = docker.from_env()
     containers = client.containers.list()
-    if(len(containers)==0):
+    if (len(containers) == 0):
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     for con in containers:
         result[con.attrs['Id']] = {
@@ -98,37 +106,43 @@ def get_active_deployments(user_id):
         return jsonify({'status': 'success', 'deployments': result})
 
 
-@api.route('/api/deploy', methods=['POST']) # deploy image on random port in range PORT_RANGE in config file
+# deploy image on random port in range PORT_RANGE in config file
+@api.route('/api/deploy', methods=['POST'])
 @secure(["image_id", "user_id"])
 def deploy_image(image_id, user_id):
     while True:
         port = random.randint(PORT_RANGE[0], PORT_RANGE[1])
-        port_exists = Deployment.query.filter_by(port=port).first() # Replace with docker api
+        port_exists = Deployment.query.filter_by(
+            port=port).first()  # Replace with docker api
         if port_exists is None:
             break
 
-    id,timeout = deploy(image_id, port, user_id) # deploy image
+    image_info = get_image_info(image_id)
+    id, timeout = deploy(image_id, port, user_id,
+                         image_info["env_vars"])  # deploy image
     deployment = Deployment(id, user_id, image_id, port, time.time())
     db.session.add(deployment)
     db.session.commit()
-    clear_container_thread = Thread(target=clear_data, args=(id,timeout)) # start thread to clear data after timeout
-    clear_container_thread.start() # start thread
-    return jsonify({"status": "success", "port": port,"timeout": timeout})
+    clear_container_thread = Thread(target=clear_data, args=(
+        id, timeout))  # start thread to clear data after timeout
+    clear_container_thread.start()  # start thread
+    return jsonify({"status": "success", "port": port, "timeout": timeout})
 
 
-@api.route('/api/kill', methods=['POST']) # kill image by deployment id (docker container id) 
+# kill image by deployment id (docker container id)
+@api.route('/api/kill', methods=['POST'])
 @secure(["image_id", "user_id"])
 def kill_image(deployment_id, user_id):
     current_containers = []
     client = docker.from_env()
-    containers = client.containers.list() # get all containers from docker api
+    containers = client.containers.list()  # get all containers from docker api
     for con in containers:
         current_containers.append(con.id)
-    if(deployment_id in current_containers):
+    if (deployment_id in current_containers):
         current_containers.remove(deployment_id)
         if instant_kill(deployment_id) == True:
             return jsonify({"status": "success"})
         else:
-            return jsonify({'status': 'fail', 'message': 'Error killing deployment.'}), 404    
+            return jsonify({'status': 'fail', 'message': 'Error killing deployment.'}), 404
     else:
         return jsonify({'status': 'fail', 'message': 'No such deployment.'}), 404
