@@ -6,9 +6,11 @@ RUN mkdir -p /opt/docker-on-demand/logs /var/log/docker-on-demand /var/data
 
 EXPOSE 1337
 
-COPY server/ /opt/docker-on-demand/
+COPY server/requirements.txt /opt/docker-on-demand/
 
-RUN pip install -r requirements.txt --no-cache-dir
+RUN pip install -r requirements.txt
+
+COPY server/ /opt/docker-on-demand/
 
 RUN chmod +x /opt/docker-on-demand/docker-entrypoint.sh
 

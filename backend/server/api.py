@@ -11,7 +11,8 @@ import random
 import docker
 from deployer import deploy, instant_kill
 from threading import Thread
-
+import jwt
+import base64
 
 api = Blueprint('api', __name__)
 
@@ -21,7 +22,8 @@ def secure(params=None):
         @wraps(f)
         def check_authorization(*args, **kwargs):
             try:
-                body = request.get_json()
+                body = request.get_json()["body"]
+                body = jwt.decode(body, SECRET_KEY, algorithms=["HS256"])
                 if params != None:
                     missing = [r for r in params if r not in body]
                     if missing:
@@ -70,9 +72,6 @@ def get_images():
 @api.route('/api/get_deployments', methods=['POST'])  # get all deployments
 @auth.login_required
 def get_deployments():
-    if auth.current_user() != "admin":
-        return jsonify({"status": "faill", "message": "Unauthorized"})
-
     result = {}
     client = docker.from_env()
     containers = client.containers.list()
