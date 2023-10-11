@@ -35,7 +35,7 @@ def clear_data(container_id, timeout):  # function to clear data after timeout
         print(e, flush=True)
 
 
-@api.route('/admin/get_images', methods=['GET'])
+@api.route('/api/get_images', methods=['GET'])
 @auth.login_required
 def get_images():
     result = []
