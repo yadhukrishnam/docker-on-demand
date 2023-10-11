@@ -8,9 +8,6 @@ services:
     ports:
       - 1337:1337
     environment:
-      - APP_ADMIN_PASSWORD=adminpass
-      - APP_USER_PASSWORD=userpass
-      - SECRET_KEY=aN_3X4mpL3_s3Cr3t_K3y
       - WORKERS=4
       - DATA_FOLDER=/var/data
       - LOG_FOLDER=/var/log/docker-on-demand
