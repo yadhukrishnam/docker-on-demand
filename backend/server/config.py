@@ -1,6 +1,5 @@
 import os
 import yaml
-import uuid
 import sys
 
 config = {}
