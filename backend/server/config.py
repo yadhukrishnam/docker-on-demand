@@ -49,7 +49,8 @@ for image_name in data:
     images.append({
         "image_name": image_name,
         "local_port": config["image_data"][image_name]["local_port"],
-        "env_vars": config["image_data"][image_name]["env_vars"]
+        "env_vars": config["image_data"][image_name]["env_vars"],
+        "timeout": config["image_data"][image_name]["timeout"],
     })
 
 # Check if user was given through environment
