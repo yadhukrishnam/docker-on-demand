@@ -23,6 +23,7 @@ logging.basicConfig(filename='debug.log', level=logging.WARNING,
 @app.errorhandler(Exception)
 def server_error(err):
     current_app.logger.exception(err)
+    print (err)
     return jsonify({'status': 'fail'})
 
 

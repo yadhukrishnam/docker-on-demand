@@ -1,5 +1,5 @@
 import docker
-from config import *
+from config import IMAGES
 import re
 from threading import Thread
 from database import Deployment
@@ -9,7 +9,7 @@ import time
 
 # deploy container and return container id and timeout value for clearing data from db after timeout seconds
 def deploy(image_id, public_port, container_name, env_data):
-    for image in images:
+    for image in IMAGES:
         if (image_id == image["image_name"]):
             print(image, flush=True)
             try:

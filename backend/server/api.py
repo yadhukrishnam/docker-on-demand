@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, Flask
-from config import *
+from config import SECRET_KEY, IMAGES, HOST_IP, PORT_RANGE
 from sqlalchemy import text
 from deployer import deploy, kill
 from functools import wraps
@@ -13,37 +13,16 @@ from deployer import deploy, instant_kill
 from threading import Thread
 import jwt
 import base64
+from auth import secure
 
 api = Blueprint('api', __name__)
 
 
-def secure(params=None):
-    def decorator(f):
-        @wraps(f)
-        def check_authorization(*args, **kwargs):
-            try:
-                body = request.get_json()["body"]
-                body = jwt.decode(body, SECRET_KEY, algorithms=["HS256"])
-                if params != None:
-                    missing = [r for r in params if r not in body]
-                    if missing:
-                        raise ValueError("Required params not supplied.")
-            except Exception as e:
-                response = {'status': 'fail',
-                            'message': f'Invalid JSON body {e}'}
-                return jsonify(response), 400
-
-            if params is None:
-                return f()
-            else:
-                return f(* tuple(body[item] for item in params))
-        return check_authorization
-    return decorator
 
 
 def get_image_info(image_name):
-    global images
-    for image in images:
+    global IMAGES
+    for image in IMAGES:
         if image['image_name'] == image_name:
             return image
 
@@ -63,7 +42,7 @@ def clear_data(container_id, timeout):  # function to clear data after timeout
 @auth.login_required
 def get_images():
     result = []
-    for image in images:
+    for image in IMAGES:
         result.append(
             {"imagename": image["image_name"], "port": image["local_port"]})
     return jsonify({'status': 'success', "images": result})
@@ -108,6 +87,7 @@ def get_active_deployments(user_id):
 @api.route('/api/deploy', methods=['POST'])
 @secure(["image_id", "user_id"])
 def deploy_image(image_id, user_id):
+    print (image_id, user_id)
     while True:
         port = random.randint(PORT_RANGE[0], PORT_RANGE[1])
         port_exists = Deployment.query.filter_by(
