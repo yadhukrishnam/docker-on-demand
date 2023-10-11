@@ -1,7 +1,7 @@
 import os
 import yaml
-import uuid
 import sys
+import uuid
 
 config = {}
 IMAGES = []
@@ -35,7 +35,7 @@ credentials = {
 print ("Use these credentials to login: ")
 print (credentials)
 
-SECRET_KEY = config["app_conf"]["SECRET_KEY"]
+SECRET_KEY = os.getenv('SECRET_KEY', uuid.uuid4())
 DATA_FOLDER = os.getenv('DATA_FOLDER', os.path.abspath(os.path.dirname(__file__)))
 PORT_RANGE = [config["app_conf"]["port_range"]["start"], config["app_conf"]["port_range"]["end"]]
 HOST_IP = config["app_conf"]["host"]

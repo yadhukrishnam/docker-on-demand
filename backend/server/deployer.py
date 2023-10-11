@@ -2,8 +2,6 @@ import docker
 from config import IMAGES
 import re
 from threading import Thread
-from database import Deployment
-from database import db
 import time
 
 

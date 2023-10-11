@@ -1,7 +1,6 @@
-from flask import Blueprint, jsonify, request, Flask
-from config import SECRET_KEY, IMAGES, HOST_IP, PORT_RANGE
-from sqlalchemy import text
-from deployer import deploy, kill
+from flask import Blueprint, jsonify
+from config import IMAGES, HOST_IP, PORT_RANGE
+from deployer import deploy
 from functools import wraps
 from auth import auth
 from database import db, Deployment
@@ -11,8 +10,6 @@ import random
 import docker
 from deployer import deploy, instant_kill
 from threading import Thread
-import jwt
-import base64
 from auth import secure
 
 api = Blueprint('api', __name__)

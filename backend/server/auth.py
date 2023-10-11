@@ -1,8 +1,7 @@
 from flask_httpauth import HTTPBasicAuth
-from config import credentials
 import jwt
 from functools import wraps
-from config import SECRET_KEY
+from config import SECRET_KEY, credentials
 from flask import request, jsonify
 
 auth = HTTPBasicAuth()
@@ -20,12 +19,20 @@ def secure(params=None):
         @wraps(f)
         def check_authorization(*args, **kwargs):
             try:
-                body = request.get_json()["body"]
-                body = jwt.decode(body, SECRET_KEY, algorithms=["HS256"])
-                if params != None:
-                    missing = [r for r in params if r not in body]
-                    if missing:
-                        raise ValueError("Required params not supplied.")
+                bearer = request.headers.get("Authorization")
+                if bearer:
+                    import base64
+                    bearer = bearer.split(" ")[1]
+                    credential = base64.b64decode(bearer)
+                    body = request.get_json()
+                    assert credential == f"admin:{credentials['admin']}".encode()
+                else:
+                    body = request.get_json()["body"]
+                    body = jwt.decode(body, SECRET_KEY, algorithms=["HS256"])
+                    if params != None:
+                        missing = [r for r in params if r not in body]
+                        if missing:
+                            raise ValueError("Required params not supplied.")
             except Exception as e:
                 response = {'status': 'fail',
                             'message': f'Invalid JSON body {e}'}

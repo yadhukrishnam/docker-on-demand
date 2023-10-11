@@ -14,6 +14,7 @@ services:
       - ACCESS_LOG=-
       - ERROR_LOG=-
       - DOCKER_HOST=unix:///var/run/docker.sock
+      - SECRET_KEY=thisisthesecret
     restart: always
     volumes:
       - docker-on-demand-logs:/var/log/docker-on-demand

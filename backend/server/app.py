@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, redirect, current_app
 from flask.templating import render_template
 from database import db
-from config import *
+from config import DATA_FOLDER, config
 from auth import auth
 import os
 import logging
@@ -55,4 +55,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=APP_PORT, debug=True)
+    app.run(host='0.0.0.0', port=config["app_port"], debug=config["debug"])
