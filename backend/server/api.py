@@ -22,7 +22,6 @@ def secure(params=None):
         def check_authorization(*args, **kwargs):
             try:
                 body = request.get_json()
-
                 if params != None:
                     missing = [r for r in params if r not in body]
                     if missing:
@@ -80,10 +79,10 @@ def get_deployments():
     if (len(containers) == 0):
         return jsonify({'status': 'fail', 'message': 'No deployments found.'}), 404
     for con in containers:
-        result[con.attrs['Id']] = {
+        result[con.attrs['Id'][:10]] = {
             "port": [con.ports[i][0]['HostPort'] if con.ports[i] else "not-found" for i in con.ports][0],
             "image_id": con.image.tags[0],
-            "user_id": "admin",
+            "user_id": con.attrs['Name'].split("_")[0],
             "deployment_id": con.attrs['Id'][:10],
             "created_at": con.attrs['Created']
         }
