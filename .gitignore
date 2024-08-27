@@ -2,6 +2,9 @@
 __pycache__/
 images.json
 *.sqlite
+*.sqlite3
+*.pyc
+
 *.log
 
 venv/
@@ -19,3 +22,4 @@ build/
 node_modules/
 package-lock.json
 *.yaml
+.DS_Store
