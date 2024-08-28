@@ -7,5 +7,5 @@ urlpatterns = [
     path('images/deploy/', views.deploy_docker_image),
     path('container/<str:container_id>/', views.docker_container_detail),
     path('users/create', views.create_user),
-    path('users/<str:name>/', views.user_detail),
+    path('users/<str:magic_key>/', views.user_detail),
 ]

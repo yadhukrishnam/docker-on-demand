@@ -1,4 +1,8 @@
 import docker
+import hashlib
+import random
+import string
+from dockinator.settings import POW_STRENGTH
 
 def get_docker_client():
     return docker.from_env()
@@ -34,3 +38,12 @@ def kill_container(container_id):
     logs = get_container_logs(container_id)
     container.kill()
     return logs
+
+
+def generate_pow():
+    """
+    Generates a random string and hashes it with md5 to generate a proof of work.
+    """
+    random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=25))
+    hash = hashlib.md5(random_string.encode()).hexdigest()
+    return random_string[:-1 * POW_STRENGTH], hash, POW_STRENGTH

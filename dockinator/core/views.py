@@ -110,12 +110,12 @@ def create_user(request):
 
 
 @csrf_exempt
-def user_detail(request, name):
+def user_detail(request, magic_key):
     """
     Get user details and deployed containers for a user
     """
     try:
-        user = User.objects.get(name=name)
+        user = User.objects.get(magic_key=magic_key)
     except User.DoesNotExist:
         return HttpResponse(status=404)
 
