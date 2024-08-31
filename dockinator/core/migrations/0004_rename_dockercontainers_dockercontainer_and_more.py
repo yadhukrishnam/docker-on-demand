@@ -4,19 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0003_user_remove_dockercontainer_allocated_user_and_more'),
+        ("core", "0003_user_remove_dockercontainer_allocated_user_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='DockerContainers',
-            new_name='DockerContainer',
+            old_name="DockerContainers",
+            new_name="DockerContainer",
         ),
         migrations.AlterField(
-            model_name='dockerimage',
-            name='name',
+            model_name="dockerimage",
+            name="name",
             field=models.CharField(max_length=100, unique=True),
         ),
     ]

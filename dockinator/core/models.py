@@ -4,6 +4,7 @@ from core.utils import kill_container
 from django.utils import timezone
 from django.db import models
 
+
 class DockerImage(models.Model):
     name = models.CharField(max_length=100, unique=True)
     tag = models.CharField(max_length=100)
@@ -15,7 +16,8 @@ class DockerImage(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['created_time']
+        ordering = ["created_time"]
+
 
 class User(models.Model):
     name = models.CharField(max_length=100)
@@ -24,20 +26,21 @@ class User(models.Model):
     is_active = models.BooleanField(default=True)
 
     class Meta:
-        ordering = ['name']
+        ordering = ["name"]
+
 
 class DockerContainer(models.Model):
     container_id = models.CharField(max_length=100)
     container_name = models.CharField(max_length=2048)
     image = models.ForeignKey(DockerImage, on_delete=models.CASCADE)
-    allocated_to = models.ForeignKey('User', on_delete=models.CASCADE)
+    allocated_to = models.ForeignKey("User", on_delete=models.CASCADE)
     assigned_port = models.IntegerField()
     created_time = models.DateTimeField(auto_now_add=True)
     killed_at = models.DateTimeField(null=True)
     logs = models.TextField(null=True)
 
     class Meta:
-        ordering = ['created_time']
+        ordering = ["created_time"]
 
     def kill(self):
         kill_container(self.container_id)

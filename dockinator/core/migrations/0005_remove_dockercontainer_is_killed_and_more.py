@@ -5,30 +5,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0004_rename_dockercontainers_dockercontainer_and_more'),
+        ("core", "0004_rename_dockercontainers_dockercontainer_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='dockercontainer',
-            name='is_killed',
+            model_name="dockercontainer",
+            name="is_killed",
         ),
         migrations.AddField(
-            model_name='dockercontainer',
-            name='container_name',
+            model_name="dockercontainer",
+            name="container_name",
             field=models.CharField(default=django.utils.timezone.now, max_length=2048),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='dockercontainer',
-            name='killed_at',
+            model_name="dockercontainer",
+            name="killed_at",
             field=models.DateTimeField(null=True),
         ),
         migrations.AddField(
-            model_name='dockercontainer',
-            name='logs',
+            model_name="dockercontainer",
+            name="logs",
             field=models.TextField(null=True),
         ),
     ]

@@ -5,19 +5,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0005_remove_dockercontainer_is_killed_and_more'),
+        ("core", "0005_remove_dockercontainer_is_killed_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='email',
+            model_name="user",
+            name="email",
         ),
         migrations.AddField(
-            model_name='user',
-            name='magic_key',
+            model_name="user",
+            name="magic_key",
             field=models.UUIDField(default=uuid.uuid4, editable=False),
         ),
     ]

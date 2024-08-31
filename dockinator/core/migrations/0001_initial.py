@@ -5,53 +5,92 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AllocatedUser',
+            name="AllocatedUser",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("user", models.CharField(max_length=100)),
             ],
         ),
         migrations.CreateModel(
-            name='DockerImage',
+            name="DockerImage",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('tag', models.CharField(max_length=100)),
-                ('is_enabled', models.BooleanField(default=True)),
-                ('port_to_expose', models.IntegerField(default=80)),
-                ('allocated_port_range', models.CharField(blank=True, max_length=100, null=True)),
-                ('lifespan', models.IntegerField(default=0)),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("tag", models.CharField(max_length=100)),
+                ("is_enabled", models.BooleanField(default=True)),
+                ("port_to_expose", models.IntegerField(default=80)),
+                (
+                    "allocated_port_range",
+                    models.CharField(blank=True, max_length=100, null=True),
+                ),
+                ("lifespan", models.IntegerField(default=0)),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'ordering': ['created_time'],
+                "ordering": ["created_time"],
             },
         ),
         migrations.CreateModel(
-            name='DockerContainer',
+            name="DockerContainer",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('container_id', models.CharField(max_length=100)),
-                ('port', models.IntegerField()),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
-                ('allocated_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.allocateduser')),
-                ('docker_image', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.dockerimage')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("container_id", models.CharField(max_length=100)),
+                ("port", models.IntegerField()),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
+                (
+                    "allocated_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.allocateduser",
+                    ),
+                ),
+                (
+                    "docker_image",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.dockerimage",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created_time'],
+                "ordering": ["created_time"],
             },
         ),
         migrations.AddField(
-            model_name='allocateduser',
-            name='docker_image',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.dockerimage'),
+            model_name="allocateduser",
+            name="docker_image",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="core.dockerimage"
+            ),
         ),
     ]

@@ -5,52 +5,78 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('core', '0002_remove_dockerimage_allocated_port_range_and_more'),
+        ("core", "0002_remove_dockerimage_allocated_port_range_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('email', models.EmailField(max_length=254)),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
-                ('is_active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("email", models.EmailField(max_length=254)),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
+                ("is_active", models.BooleanField(default=True)),
             ],
             options={
-                'ordering': ['name'],
+                "ordering": ["name"],
             },
         ),
         migrations.RemoveField(
-            model_name='dockercontainer',
-            name='allocated_user',
+            model_name="dockercontainer",
+            name="allocated_user",
         ),
         migrations.RemoveField(
-            model_name='dockercontainer',
-            name='docker_image',
+            model_name="dockercontainer",
+            name="docker_image",
         ),
         migrations.CreateModel(
-            name='DockerContainers',
+            name="DockerContainers",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('container_id', models.CharField(max_length=100)),
-                ('assigned_port', models.IntegerField()),
-                ('created_time', models.DateTimeField(auto_now_add=True)),
-                ('is_killed', models.BooleanField(default=False)),
-                ('image', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.dockerimage')),
-                ('allocated_to', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.user')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("container_id", models.CharField(max_length=100)),
+                ("assigned_port", models.IntegerField()),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
+                ("is_killed", models.BooleanField(default=False)),
+                (
+                    "image",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="core.dockerimage",
+                    ),
+                ),
+                (
+                    "allocated_to",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.user"
+                    ),
+                ),
             ],
             options={
-                'ordering': ['created_time'],
+                "ordering": ["created_time"],
             },
         ),
         migrations.DeleteModel(
-            name='AllocatedUser',
+            name="AllocatedUser",
         ),
         migrations.DeleteModel(
-            name='DockerContainer',
+            name="DockerContainer",
         ),
     ]
