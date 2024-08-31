@@ -1,7 +1,9 @@
-import docker
 import hashlib
 import random
 import string
+
+import docker
+
 from dockinator.settings import POW_STRENGTH
 
 

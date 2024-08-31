@@ -1,12 +1,10 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from core.models import DockerImage, DockerContainer, User
-from core.serializers import (
-    DockerImageSerializer,
-    UserSerializer,
-    DockerContainerSerializer,
-)
+
+from core.models import DockerContainer, DockerImage, User
+from core.serializers import (DockerContainerSerializer, DockerImageSerializer,
+                              UserSerializer)
 
 
 @csrf_exempt

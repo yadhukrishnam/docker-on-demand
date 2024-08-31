@@ -1,5 +1,6 @@
 from django.contrib import admin
-from core.models import DockerImage, User, DockerContainer
+
+from core.models import DockerContainer, DockerImage, User
 
 admin.site.register(DockerImage)
 admin.site.register(User)

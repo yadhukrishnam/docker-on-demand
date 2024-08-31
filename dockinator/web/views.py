@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import TemplateView
-from core.models import DockerContainer, User, DockerImage
-from dockinator.settings import PUBLIC_URL
-from core.utils import generate_pow, validate_pow
-from web.forms import DeployContainerForm
 import requests
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import TemplateView
+
+from core.models import DockerContainer, DockerImage, User
+from core.utils import generate_pow, validate_pow
+from dockinator.settings import PUBLIC_URL
+from web.forms import DeployContainerForm
 
 
 class HomePageView(TemplateView):

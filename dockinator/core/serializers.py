@@ -1,11 +1,11 @@
 import uuid
+
 from django.utils import timezone
-
-from core.utils import deploy_container, kill_container, is_image_available
-from rest_framework import serializers
-from core.models import DockerImage, User, DockerContainer
-
 from docker.errors import APIError
+from rest_framework import serializers
+
+from core.models import DockerContainer, DockerImage, User
+from core.utils import deploy_container, is_image_available, kill_container
 
 
 class DockerImageSerializer(serializers.ModelSerializer):

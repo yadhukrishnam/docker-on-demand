@@ -1,8 +1,9 @@
 import uuid
 
-from core.utils import kill_container
-from django.utils import timezone
 from django.db import models
+from django.utils import timezone
+
+from core.utils import kill_container
 
 
 class DockerImage(models.Model):
