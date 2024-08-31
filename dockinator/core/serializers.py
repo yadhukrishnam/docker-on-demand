@@ -45,8 +45,7 @@ class DockerImageSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         instance.name = validated_data.get("name", instance.name)
         instance.tag = validated_data.get("tag", instance.tag)
-        instance.is_enabled = validated_data.get(
-            "is_enabled", instance.is_enabled)
+        instance.is_enabled = validated_data.get("is_enabled", instance.is_enabled)
         instance.port_to_expose = validated_data.get(
             "port_to_expose", instance.port_to_expose
         )
@@ -78,10 +77,8 @@ class UserSerializer(serializers.ModelSerializer):
 class DockerContainerSerializer(serializers.ModelSerializer):
     container_id = serializers.CharField(max_length=100, read_only=True)
     container_name = serializers.CharField(max_length=2048, read_only=True)
-    image = serializers.PrimaryKeyRelatedField(
-        queryset=DockerImage.objects.all())
-    allocated_to = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all())
+    image = serializers.PrimaryKeyRelatedField(queryset=DockerImage.objects.all())
+    allocated_to = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
     assigned_port = serializers.IntegerField(read_only=True)
     created_time = serializers.DateTimeField(read_only=True)
     killed_at = serializers.DateTimeField(read_only=True)
@@ -110,8 +107,7 @@ class DockerContainerSerializer(serializers.ModelSerializer):
         if not user.is_active:
             raise serializers.ValidationError("User is not active.")
 
-        port_range = range(image.allocated_port_start,
-                           image.allocated_port_end + 1)
+        port_range = range(image.allocated_port_start, image.allocated_port_end + 1)
         assigned_port = next(
             (
                 port
@@ -160,4 +156,3 @@ class DockerContainerSerializer(serializers.ModelSerializer):
             container.save()
         except APIError:
             raise serializers.ValidationError("Container could not be killed.")
-
