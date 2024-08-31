@@ -1,93 +1,115 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <title>Dockinator | Home</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
 
-<head>
-  <title>Dockinator | Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-  <link rel="stylesheet" href="/static/style.css" />
-</head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="row">
+        <div class="col-md-12">
+          <a class="navbar-brand" href="#"
+            ><b class="logo">Dockinator</b> Deploy on Demand</a
+          >
+        </div>
+      </div>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">FAQ</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h1>Hi {{user.name}},</h1>
+      <h3 class="mt-3"></h3>
+      <div class="card mt-3">
+        <div class="card-header bg-success text-white">
+          Images ready for deployment
+        </div>
+        <div class="card-body">
+          {% if form.errors %}
+          <div class="text-danger">
+            <p>{{ form.errors }}</p>
+          </div>
+          {% endif %}
 
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="row">
-      <div class="col-md-12">
-        <a class="navbar-brand" href="#"><b class="logo">Dockinator</b> Deploy on Demand</a>
-      </div>
-    </div>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">FAQ</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <div class="container mt-5">
-    <h1>Hi {{user.name}},</h1>
-    <h3 class="mt-3"></h3>
-    <div class="card mt-3">
-      <div class="card-header bg-success text-white">
-        Images ready for deployment
-      </div>
-      <div class="card-body">
-        <div class="form">
-          <form action="/public/deploy" method="POST">
-            <div class="form-group">
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="image">Select Image to deploy: </label>
+          <div class="form">
+            <form action="/public/{{magic_key}}/deploy/" method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="image">Select Image to deploy: </label>
+                  </div>
+                  <div class="col-md-6">{{ form.image }}</div>
                 </div>
-                <div class="col-md-6">
-                  <select class="form-control" name="image" id="image">
-                    {% for image in images %}
-                    {% if image.id not in running_image_ids %}
-                    <option value="{{ image.id }}">{{ image.name }}</option>
-                    {% endif %}
-                    {% endfor %}
-                  </select>
+                <div class="row">
+                  <div class="col-md-6">
+                    <label for="pow"
+                      >Solve this challenge using script here. <br /><br />
+                      <code
+                        >MD5({{ partial_string }}{{ required_chars }}) = {{ required_result }}</code
+                      ></label
+                    >
+                  </div>
+                  <div class="col-md-6">{{ form.pow }}</div>
                 </div>
+                <button type="submit" class="btn btn-success mt-3">
+                  Deploy
+                </button>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <label for="pow">Solve this challenge using script here. <br/><br/> <code>MD5({{ partial_string }}{{ required_chars }}) = {{ required_result }}</code></label>
-                </div>
-                <div class="col-md-6">
-                  <input type="text" class="form-control mt-5" name="pow" id="pow" placeholder="Enter the full string that when hashed with MD5 gives {{ required_result }}">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-success mt-3">Deploy</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-5">
+        <div class="card-header bg-success text-white">Running instances</div>
+        <div class="card-body">
+          <table class="table">
+            <tr>
+              <th>Image Name</th>
+              <th>Deployed At</th>
+              <th>Stop</th>
+              <th>Link</th>
+            </tr>
+            {% for container in containers %}
+            <tr>
+              <td>{{ container.image.name }}</td>
+              <td>{{ container.created_time }}</td>
+              <td>
+                <form
+                  action="/public/{{magic_key}}/stop/{{ container.container_id }}"
+                  method="GET"
+                >
+                  <button type="submit" class="btn btn-danger">Stop</button>
+                </form>
+              </td>
+              <td>
+                <a
+                  class="btn btn-success"
+                  href="{{ PUBLIC_URL }}:{{container.port}}"
+                  target="_blank"
+                  >Open</a
+                >
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
         </div>
       </div>
     </div>
-    <div class="card mt-5">
-      <div class="card-header bg-success text-white">
-        Running instances
-      </div>
-      <div class="card-body">
-        <table class="table">
-          <tr>
-            <th>Image Name</th>
-            <th>Deployed At</th>
-            <th>Stop</th>
-            <th>Link</th>
-          </tr>
-          {% for container in containers %}
-          <tr>
-            <td>{{ container.image.name }}</td>
-            <td>{{ container.created_time }}</td>
-            <td><a class="btn btn-danger" href="/public/stop/{{ container.container_id }}">Stop</a></td>
-            <td><a class="btn btn-success" href="{{ PUBLIC_URL }}:{{container.port}}" target="_blank">Open</a></td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      </div>
-  </div>
- 
-</body>
-
+  </body>
 </html>
+%

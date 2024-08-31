@@ -50,4 +50,13 @@ def generate_pow():
     """
     random_string = ''.join(random.choices(string.ascii_lowercase + string.digits, k=25))
     hash = hashlib.md5(random_string.encode()).hexdigest()
+    print (random_string)
     return random_string[:-1 * POW_STRENGTH], hash, POW_STRENGTH
+
+def validate_pow(submission, target_hash):
+    """
+    Validates the proof of work.
+    """
+    return hashlib.md5((submission).encode()).hexdigest() == target_hash
+
+print (get_docker_client())
