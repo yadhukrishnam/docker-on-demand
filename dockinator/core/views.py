@@ -2,10 +2,10 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 
+from .decorators import api_key_required
 from core.models import DockerContainer, DockerImage, User
 from core.serializers import (DockerContainerSerializer, DockerImageSerializer,
                               UserSerializer)
-
 
 @csrf_exempt
 def docker_images_list(request):
@@ -54,6 +54,7 @@ def docker_image_detail(request, pk):
 
 
 @csrf_exempt
+@api_key_required
 def deploy_container(request):
     """
     Deploy a container from allowed images.
@@ -101,16 +102,23 @@ def docker_container_detail(request, container_id):
             return JsonResponse({"error": str(e)}, status=400)
 
 @csrf_exempt
+@api_key_required
 def get_active_deployments(request):
     """
     Get all active deployed containers of a user
     """
     if request.method == "POST":
+        body = JSONParser().parse(request)
         user = User.objects.filter(
-            name=JSONParser().parse(request)["name"]
+            name=body["name"]
         ).first()
         if user:
-            active_containers = DockerContainer.objects.filter(allocated_to=user, killed_at=None)
+            if body.get("image"):
+                active_containers = DockerContainer.objects.filter(
+                    image__name=body["image"], allocated_to=user, killed_at=None
+                )
+            else:
+                active_containers = DockerContainer.objects.filter(allocated_to=user, killed_at=None)
             serializer = DockerContainerSerializer(active_containers, many=True)
             return JsonResponse({"active_containers": serializer.data})
         return JsonResponse({"error": "User not found."}, status=404)
@@ -141,25 +149,27 @@ def kill_container(request):
         serializer = DockerContainerSerializer(container)
         try:
             serializer.kill_container(container)
-            return HttpResponse(status=204)
+            return JsonResponse({"status": "success"})
         except serializer.ValidationError as e:
             return JsonResponse({"error": str(e)}, status=400)
     return HttpResponse(status=405)
 
 @csrf_exempt
+@api_key_required
 def get_or_create_user(request):
     """
     Create a new user or return existing user if user already exists
     """
     if request.method == "POST":
+        body = JSONParser().parse(request)
         user = User.objects.filter(
-            name=JSONParser().parse(request)["name"]
+            name=body["name"]
         ).first()
         if user:
             serializer = UserSerializer(user)
             return JsonResponse({"user": serializer.data})
 
-        serializer = UserSerializer(data=JSONParser().parse(request))
+        serializer = UserSerializer(data=body)
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)

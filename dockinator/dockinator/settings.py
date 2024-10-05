@@ -132,3 +132,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 PUBLIC_URL = "http://localhost"
 
 POW_STRENGTH = 4
+
+API_TOKEN = ''

@@ -64,5 +64,3 @@ def validate_pow(submission, target_hash):
     """
     return hashlib.md5((submission).encode()).hexdigest() == target_hash
 
-
-print(get_docker_client())
