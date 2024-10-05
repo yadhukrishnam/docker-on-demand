@@ -54,12 +54,22 @@ def docker_image_detail(request, pk):
 
 
 @csrf_exempt
-def deploy_docker_image(request):
+def deploy_container(request):
     """
-    Deploy a docker image.
+    Deploy a container from allowed images.
     """
     if request.method == "POST":
         data = JSONParser().parse(request)
+        requested_image = DockerImage.objects.get(name=data["image"])
+        data["image"] = requested_image.pk
+
+        requested_for = data.get("allocated_to")
+        user = User.objects.filter(name=requested_for).first()
+        if user:
+            data["allocated_to"] = user.pk
+        else:
+            raise ("User does not exist.")
+
         serializer = DockerContainerSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
@@ -90,18 +100,64 @@ def docker_container_detail(request, container_id):
         except serializer.ValidationError as e:
             return JsonResponse({"error": str(e)}, status=400)
 
-
 @csrf_exempt
-def create_user(request):
+def get_active_deployments(request):
     """
-    Create a new user
+    Get all active deployed containers of a user
     """
     if request.method == "POST":
-        user_exists = User.objects.filter(
+        user = User.objects.filter(
             name=JSONParser().parse(request)["name"]
-        ).exists()
-        if user_exists:
-            return JsonResponse({"error": "User already exists."}, status=400)
+        ).first()
+        if user:
+            active_containers = DockerContainer.objects.filter(allocated_to=user, killed_at=None)
+            serializer = DockerContainerSerializer(active_containers, many=True)
+            return JsonResponse({"active_containers": serializer.data})
+        return JsonResponse({"error": "User not found."}, status=404)
+    return HttpResponse(status=405)
+
+@csrf_exempt
+def kill_container(request):
+    """
+    Kill a container based on image name and user name
+    """
+    if request.method == "POST":
+        data = JSONParser().parse(request)
+        user = User.objects.filter(name=data["user"]).first()
+        if not user:
+            return JsonResponse({"error": "User not found."}, status=404)
+
+        image = DockerImage.objects.filter(name=data["image"]).first()
+        if not image:
+            return JsonResponse({"error": "Image not found."}, status=404)
+
+        container = DockerContainer.objects.filter(
+            image=image.pk, allocated_to=user, killed_at=None
+        ).first()
+        
+        if not container:
+            return JsonResponse({"error": "The image has no active deployments."}, status=404)
+                        
+        serializer = DockerContainerSerializer(container)
+        try:
+            serializer.kill_container(container)
+            return HttpResponse(status=204)
+        except serializer.ValidationError as e:
+            return JsonResponse({"error": str(e)}, status=400)
+    return HttpResponse(status=405)
+
+@csrf_exempt
+def get_or_create_user(request):
+    """
+    Create a new user or return existing user if user already exists
+    """
+    if request.method == "POST":
+        user = User.objects.filter(
+            name=JSONParser().parse(request)["name"]
+        ).first()
+        if user:
+            serializer = UserSerializer(user)
+            return JsonResponse({"user": serializer.data})
 
         serializer = UserSerializer(data=JSONParser().parse(request))
         if serializer.is_valid():
@@ -114,7 +170,7 @@ def create_user(request):
 @csrf_exempt
 def user_detail(request, magic_key):
     """
-    Get user details and deployed containers for a user
+    Get user details and deployed containers for a user 
     """
     try:
         user = User.objects.get(magic_key=magic_key)

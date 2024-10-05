@@ -1,4 +1,5 @@
 import uuid
+import random
 
 from django.utils import timezone
 from docker.errors import APIError
@@ -106,18 +107,23 @@ class DockerContainerSerializer(serializers.ModelSerializer):
 
         if not user.is_active:
             raise serializers.ValidationError("User is not active.")
+        
+        if DockerContainer.objects.filter(
+            image=image, allocated_to=user, killed_at=None
+        ).exists():
+            raise serializers.ValidationError(
+                "User already has a deployment for the image."
+            )
 
-        port_range = range(image.allocated_port_start, image.allocated_port_end + 1)
-        assigned_port = next(
-            (
-                port
-                for port in port_range
-                if not DockerContainer.objects.filter(
-                    assigned_port=port, killed_at=None
-                ).exists()
-            ),
-            None,
-        )
+        port_range = list(range(image.allocated_port_start, image.allocated_port_end + 1))
+        max_retries = 10  
+
+        for _ in range(max_retries):
+            assigned_port = random.choice(port_range)
+            if not DockerContainer.objects.filter(assigned_port=assigned_port, killed_at=None).exists():
+                break
+        else:
+            assigned_port = None  
         container_name = f"{image.name}-{user.name}-{assigned_port}"
         container_id = deploy_container(
             f"{image.name}:{image.tag}",
