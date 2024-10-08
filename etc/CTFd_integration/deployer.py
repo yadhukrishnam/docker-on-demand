@@ -29,7 +29,7 @@ def call_registrar(body, endpoint, method='POST'):
     headers = {
         'X-Api-Token': f'{SECRET}'
     }
-
+    
     if method == 'POST':
         return requests.post(url, json=body, headers=headers)
     elif method == 'DELETE':
@@ -39,6 +39,7 @@ def call_registrar(body, endpoint, method='POST'):
     else:
         abort(404)
 
+## Status check
 @deployer.route('/get_deployment/<challenge_name>', methods=['GET'])
 def get_deployments(challenge_name):
     if not user_can_get_instance():
@@ -55,12 +56,12 @@ def get_deployments(challenge_name):
 
 @deployer.route('/deploy/<challenge_name>', methods=['GET'])
 def deploy_challenge(challenge_name):
+    print("Deploying")
     if not user_can_get_instance():
         abort(403)
     
     clientname = get_current_user().name if not is_teams_mode() else get_current_team().name
     challenge_name = challenge_name.replace(" ","_").lower()
-
     if session.get('deployer_user_created') == None:
         body = {
             "name": clientname

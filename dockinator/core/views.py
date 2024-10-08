@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-
+from core.flag_generator import GenerateFlag
 from .decorators import api_key_required
 from core.models import DockerContainer, DockerImage, User
 from core.serializers import (DockerContainerSerializer, DockerImageSerializer,
@@ -62,15 +62,18 @@ def deploy_container(request):
     if request.method == "POST":
         data = JSONParser().parse(request)
         requested_image = DockerImage.objects.get(name=data["image"])
+        flag_value = GenerateFlag(data["allocated_to"], data["image"]).generate_flag()
         data["image"] = requested_image.pk
-
+        print(flag_value)
         requested_for = data.get("allocated_to")
         user = User.objects.filter(name=requested_for).first()
+        data["flag"] = flag_value
+
         if user:
             data["allocated_to"] = user.pk
+            print(data)
         else:
             raise ("User does not exist.")
-
         serializer = DockerContainerSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

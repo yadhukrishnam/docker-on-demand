@@ -83,6 +83,7 @@ class DockerContainerSerializer(serializers.ModelSerializer):
     assigned_port = serializers.IntegerField(read_only=True)
     created_time = serializers.DateTimeField(read_only=True)
     killed_at = serializers.DateTimeField(read_only=True)
+    flag = serializers.CharField(max_length=200, read_only=True)
 
     class Meta:
         model = DockerContainer
@@ -95,19 +96,18 @@ class DockerContainerSerializer(serializers.ModelSerializer):
             "assigned_port",
             "created_time",
             "killed_at",
+            "flag",
         ]
 
     def create(self, validated_data):
         image = validated_data.get("image")
-
         user = validated_data.get("allocated_to")
-
+        print("User: ", validated_data.get("flag"))
         if not image.is_enabled:
             raise serializers.ValidationError("Image is not enabled.")
 
         if not user.is_active:
             raise serializers.ValidationError("User is not active.")
-        
         if DockerContainer.objects.filter(
             image=image, allocated_to=user, killed_at=None
         ).exists():
@@ -125,12 +125,15 @@ class DockerContainerSerializer(serializers.ModelSerializer):
         else:
             assigned_port = None  
         container_name = f"{image.name}-{user.name}-{assigned_port}"
+        
+        # flag_value = image.flag_value
         container_id = deploy_container(
             f"{image.name}:{image.tag}",
             container_name,
             image.port_to_expose,
             assigned_port,
-        )
+            validated_data.get("flag"),
+)
 
         if assigned_port is None:
             raise serializers.ValidationError(

@@ -15,6 +15,7 @@ class DockerImage(models.Model):
     allocated_port_end = models.IntegerField(default=0)
     lifespan = models.IntegerField(default=0)
     created_time = models.DateTimeField(auto_now_add=True)
+    flag = models.CharField(max_length=200, default="hackception{}")
 
     class Meta:
         ordering = ["created_time"]
@@ -42,7 +43,8 @@ class DockerContainer(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     killed_at = models.DateTimeField(null=True)
     logs = models.TextField(null=True)
-
+    flag = models.CharField(max_length=2000, default="hackception{}")
+    
     class Meta:
         ordering = ["created_time"]
 
