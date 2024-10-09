@@ -201,3 +201,30 @@ def user_detail(request, magic_key):
             }
         )
     return HttpResponse(status=405)
+
+@csrf_exempt
+def validate_flag(request):
+    """
+    Validate the flag for a user and image
+    """
+    if request.method == "POST":
+        data = JSONParser().parse(request)
+        user = User.objects.filter(name=data["user"]).first()
+        if not user:
+            return JsonResponse({"error": "User not found."}, status=404)
+
+        image = DockerImage.objects.filter(name=data["image"]).first()
+        if not image:
+            return JsonResponse({"error": "Image not found."}, status=404)
+
+        user_containers = DockerContainer.objects.filter(
+            image=image.pk, allocated_to=user
+        ).all()
+
+        flags = [container.flag for container in user_containers]
+        if data.get("flag") in flags:
+            return JsonResponse({"status": "success"})
+        
+        return JsonResponse({"status": "failure"})
+
+    return HttpResponse(status=405)

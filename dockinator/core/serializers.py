@@ -123,11 +123,15 @@ class DockerContainerSerializer(serializers.ModelSerializer):
         else:
             assigned_port = None  
         container_name = f"{image.name}-{user.name}-{assigned_port}"
+
+        flag = image.get_flag()
+
         container_id = deploy_container(
             f"{image.name}:{image.tag}",
             container_name,
             image.port_to_expose,
             assigned_port,
+            flag
         )
 
         if assigned_port is None:
@@ -147,6 +151,7 @@ class DockerContainerSerializer(serializers.ModelSerializer):
             assigned_port=assigned_port,
             container_name=container_name,
             container_id=container_id,
+            flag=flag,
             **validated_data,
         )
 

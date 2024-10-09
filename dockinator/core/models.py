@@ -1,4 +1,6 @@
 import uuid
+import string
+import random
 
 from core.utils import get_container_logs, kill_container, remove_container
 from django.db import models
@@ -14,12 +16,19 @@ class DockerImage(models.Model):
     allocated_port_end = models.IntegerField(default=0)
     lifespan = models.IntegerField(default=0)
     created_time = models.DateTimeField(auto_now_add=True)
+    flag = models.CharField(max_length=200, null=True)
 
     class Meta:
         ordering = ["created_time"]
 
     def __str__(self):
         return f"{self.name} {self.tag}"
+    
+    def get_flag(self):
+        if not self.flag:
+            return None
+        random_string = "".join(random.choices(string.ascii_lowercase + string.digits, k=12))
+        return self.flag.replace("[RANDOM_PART]", random_string)
 
 
 class User(models.Model):
@@ -28,6 +37,9 @@ class User(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.name}"
+    
     class Meta:
         ordering = ["name"]
 
@@ -41,6 +53,10 @@ class DockerContainer(models.Model):
     created_time = models.DateTimeField(auto_now_add=True)
     killed_at = models.DateTimeField(null=True)
     logs = models.TextField(null=True)
+    flag = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return f"{self.container_name}"
 
     class Meta:
         ordering = ["created_time"]

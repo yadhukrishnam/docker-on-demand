@@ -6,6 +6,7 @@ urlpatterns = [
     path ("user/get_active_deployments", views.get_active_deployments),
     path ("user/container/kill", views.kill_container),
     path ("container/deploy", views.deploy_container),
+    path ("user/flag/validate", views.validate_flag),
 
     # path("images/", views.docker_images_list),
     # path("images/<int:pk>/", views.docker_image_detail),

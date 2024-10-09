@@ -21,13 +21,14 @@ def is_image_available(image_name, image_tag):
     return f"{image_name}:{image_tag}" in locally_available_images
 
 
-def deploy_container(image, container_name, port_to_expose, allocated_port):
+def deploy_container(image, container_name, port_to_expose, allocated_port, flag):
     client = get_docker_client()
     container = client.containers.run(
         image,
         name=container_name,
         ports={f"{port_to_expose}/tcp": allocated_port},
         detach=True,
+        environment={"FLAG": flag},
     )
     return container.id
 
