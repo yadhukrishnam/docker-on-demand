@@ -2,10 +2,9 @@ from datetime import timedelta
 
 import docker
 import docker.errors
+from core.models import DockerContainer
 from django.core.management.base import BaseCommand
 from django.utils import timezone
-
-from core.models import DockerContainer
 
 
 def get_expired_containers():

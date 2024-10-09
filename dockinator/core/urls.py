@@ -1,6 +1,5 @@
-from django.urls import path
-
 from core import views
+from django.urls import path
 
 urlpatterns = [
     path ("user/get_or_create", views.get_or_create_user),

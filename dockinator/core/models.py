@@ -1,9 +1,8 @@
 import uuid
 
+from core.utils import get_container_logs, kill_container, remove_container
 from django.db import models
 from django.utils import timezone
-
-from core.utils import kill_container, get_container_logs, remove_container
 
 
 class DockerImage(models.Model):
@@ -46,10 +45,10 @@ class DockerContainer(models.Model):
     class Meta:
         ordering = ["created_time"]
 
-    def kill(self, remove_container=True):
+    def kill(self, auto_remove_container=True):
         kill_container(self.container_id)
         self.killed_at = timezone.now()
         self.logs = get_container_logs(self.container_id)
-        if remove_container:
+        if auto_remove_container:
             remove_container(self.container_id)
         self.save()

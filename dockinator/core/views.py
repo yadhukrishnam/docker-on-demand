@@ -1,11 +1,12 @@
+from core.models import DockerContainer, DockerImage, User
+from core.serializers import (DockerContainerSerializer, DockerImageSerializer,
+                              UserSerializer)
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 
 from .decorators import api_key_required
-from core.models import DockerContainer, DockerImage, User
-from core.serializers import (DockerContainerSerializer, DockerImageSerializer,
-                              UserSerializer)
+
 
 @csrf_exempt
 def docker_images_list(request):

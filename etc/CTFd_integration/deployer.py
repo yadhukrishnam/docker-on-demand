@@ -1,15 +1,9 @@
 from flask import Blueprint, abort
 
 import requests
-from CTFd.utils.decorators import authed_only
-from CTFd.utils.decorators.visibility import (
-    check_account_visibility,
-    check_score_visibility,
-)
 from CTFd.utils.config import is_teams_mode
 from flask import session
-from CTFd.utils.helpers import get_errors, get_infos
-from CTFd.utils.user import get_ip, is_admin, authed, get_current_user, get_current_team
+from CTFd.utils.user import is_admin, authed, get_current_user, get_current_team
 
 deployer = Blueprint("deployer", __name__)
 
@@ -61,7 +55,7 @@ def deploy_challenge(challenge_name):
     clientname = get_current_user().name if not is_teams_mode() else get_current_team().name
     challenge_name = challenge_name.replace(" ","_").lower()
 
-    if session.get('deployer_user_created') == None:
+    if session.get('deployer_user_created') is None:
         body = {
             "name": clientname
         }

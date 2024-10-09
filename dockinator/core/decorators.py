@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.http import JsonResponse
 
+
 def api_key_required(view_func):
     """
     Decorator to check if the request contains a valid API key in the headers.
