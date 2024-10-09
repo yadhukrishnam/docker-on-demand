@@ -155,10 +155,6 @@ class DockerContainerSerializer(serializers.ModelSerializer):
     def kill_container(self, instance):
         try:
             container = DockerContainer.objects.get(pk=instance.pk)
-            print("Killing container: ", container.container_id)
-            logs = kill_container(container.container_id)
-            container.killed_at = timezone.now()
-            container.logs = logs
-            container.save()
+            container.kill()
         except APIError:
             raise serializers.ValidationError("Container could not be killed.")

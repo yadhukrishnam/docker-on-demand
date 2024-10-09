@@ -45,6 +45,10 @@ def kill_container(container_id):
     container.kill()
     return logs
 
+def remove_container(container_id):
+    client = get_docker_client()
+    container = client.containers.get(container_id)
+    return container.remove()
 
 def generate_pow():
     """
